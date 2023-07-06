@@ -1,70 +1,53 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+
+// Less code (c)
+// Better validation
+// Better Erros (set, clear, display)
+// Have control over inputs
+// Dont deal with events (c)
+// Easier Inputs (c)
+
+interface LoginForm {
+  username: string;
+  password: string;
+  email: string;
+}
 
 export default function Forms() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [formErrors, setFormErrors] = useState("");
-  const [emailError, setEmailError] = useState("");
-
-  const onUsernameChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
-    const {
-      currentTarget: { value },
-    } = event;
-    setUsername(value);
+  const { register, handleSubmit } = useForm<LoginForm>();
+  const onValid = (data: LoginForm) => {
+    console.log("im valid bby");
   };
-
-  const onEmailChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
-    const {
-      currentTarget: { value },
-    } = event;
-    setEmailError("");
-    setEmail(value);
-  };
-
-  const onPasswordChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
-    const {
-      currentTarget: { value },
-    } = event;
-    setPassword(value);
-  };
-
-  const onSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log(email, username, password);
-
-    if (username === "" || email === "" || password === "") {
-      setFormErrors("All fields are required");
-    }
-    if (!email.includes("@")) {
-      setEmailError("email is required");
-    }
+  const onInvalid = (errors: FieldErrors) => {
+    console.log(errors);
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={handleSubmit(onValid, onInvalid)}>
       <input
-        value={username}
-        onChange={onUsernameChange}
+        {...register("username", {
+          required: "Username is required",
+          minLength: {
+            message: "The username should be longer than 5 chars.",
+            value: 5,
+          },
+        })}
         type="text"
         placeholder="Username"
-        required
-        minLength={5}
       />
       <input
-        value={email}
-        onChange={onEmailChange}
+        {...register("email", {
+          required: "Email is required",
+        })}
         type="email"
         placeholder="Email"
-        required
       />
-      {emailError}
       <input
-        value={password}
-        onChange={onPasswordChange}
+        {...register("password", {
+          required: "Password is required",
+        })}
         type="password"
         placeholder="Password"
-        required
       />
       <input type="submit" value="Create Account" />
     </form>
