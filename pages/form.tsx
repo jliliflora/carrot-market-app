@@ -1,3 +1,4 @@
+import { watch } from "fs";
 import { useForm } from "react-hook-form";
 
 // Less code (c)
@@ -11,19 +12,35 @@ interface LoginForm {
   username: string;
   password: string;
   email: string;
+  errors?: string;
 }
 
 export default function Forms() {
-  const { register, handleSubmit } = useForm<LoginForm>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    setError,
+    setValue,
+    reset,
+    resetField,
+  } = useForm<LoginForm>({
+    mode: "onChange",
+  });
   const onValid = (data: LoginForm) => {
     console.log("im valid bby");
   };
   const onInvalid = (errors: FieldErrors) => {
     console.log(errors);
   };
+  console.log(watch("email"));
 
   return (
-    <form onSubmit={handleSubmit(onValid, onInvalid)}>
+    <form
+      style={{ display: "flex", flexDirection: "column" }}
+      onSubmit={handleSubmit(onValid, onInvalid)}
+    >
       <input
         {...register("username", {
           required: "Username is required",
@@ -35,13 +52,21 @@ export default function Forms() {
         type="text"
         placeholder="Username"
       />
+      {errors.username?.message}
+
       <input
         {...register("email", {
           required: "Email is required",
+          validate: {
+            notGmail: (value) =>
+              !value.includes("@gmail.com") || "Gmail is not allowed",
+          },
         })}
         type="email"
         placeholder="Email"
       />
+      {errors.email?.message}
+
       <input
         {...register("password", {
           required: "Password is required",
@@ -49,7 +74,10 @@ export default function Forms() {
         type="password"
         placeholder="Password"
       />
+      {errors.password?.message}
+
       <input type="submit" value="Create Account" />
+      {errors.errors?.message}
     </form>
   );
 }
