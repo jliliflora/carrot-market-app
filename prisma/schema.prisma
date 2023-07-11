@@ -1,0 +1,26 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"] //다른 객체에 연결될 때, 그 객체가 존재하길 바란다는거임
+}
+
+datasource db {
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma" // 이 작업은 프리즈마가 명시해줌으로써 동작 가능
+}
+
+// Prisma에서 model 만들기
+model User {
+  id         Int      @id @default(autoincrement())
+  phone      Int?     @unique //유저에게 전화번화가 있으면, 유일하길 바랄때 @unique
+  email      String?  @unique //전화번호로 로그인할 수 있고, 이메일로 로그인할 수 있으니까 "?" 달아주기
+  name       String
+  avatar     String?
+  createdAt  DateTime @default(now()) //now함수는 새 유저가 만들어질때 그 시점의 날짜를 가져와서 넣어주는 함수
+  upadatedAt DateTime @updatedAt
+}
+
+// 이 schema를 PlanetScale에 Push 해주기 => npx prisma db push
