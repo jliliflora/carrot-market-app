@@ -7,9 +7,8 @@ generator client {
 }
 
 datasource db {
-  provider             = "mysql"
-  url                  = env("DATABASE_URL")
-  referentialIntegrity = "prisma" // 이 작업은 프리즈마가 명시해줌으로써 동작 가능
+  provider = "mysql"
+  url      = env("DATABASE_URL") // 이 작업은 프리즈마가 명시해줌으로써 동작 가능
 }
 
 // Prisma에서 model 만들기
