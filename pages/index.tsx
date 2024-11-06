@@ -1,6 +1,8 @@
 import Image from "next/image";
 import localFont from "next/font/local";
 import Layout from "./components/layout";
+import FloatingButton from "./components/floating-button";
+import Item from "./components/item";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -16,8 +18,19 @@ const geistMono = localFont({
 export default function Home() {
   return (
     <Layout title="홈" hasTabBar>
-      <div className="flex flex-col space-y-5">
+      <div className="flex flex-col space-y-5 pt-5">
         {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
+          <Item
+            id={i}
+            key={i}
+            title="iPhone 14"
+            price={99}
+            comments={1}
+            hearts={1}
+          ></Item>
+        ))}
+
+        {/* {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
           <div
             key={i}
             className="flex px-4 border-b pb-5 cursor-pointer justify-between"
@@ -70,8 +83,10 @@ export default function Home() {
               </div>
             </div>
           </div>
-        ))}
-        <button className="fixed hover:bg-orange-500 transition-colors cursor-pointer  bottom-24 right-5 shadow-xl bg-orange-400 rounded-full p-4 text-white">
+        ))} */}
+
+        {/* <button className="fixed hover:bg-orange-500 transition-colors cursor-pointer  bottom-24 right-5 shadow-xl bg-orange-400 rounded-full p-4 text-white"> */}
+        <FloatingButton href="/items/upload">
           <svg
             className="h-6 w-6"
             xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +102,7 @@ export default function Home() {
               d="M12 6v6m0 0v6m0-6h6m-6 0H6"
             />
           </svg>
-        </button>
+        </FloatingButton>
       </div>
     </Layout>
   );

@@ -1,6 +1,8 @@
 import type { NextPage } from "next";
 import { useState } from "react";
 import { cls } from "./libs/utils";
+import Input from "./components/input";
+import Button from "./components/button";
 
 const Enter: NextPage = () => {
   const [method, setMethod] = useState<"email" | "phone">("email");
@@ -37,7 +39,7 @@ const Enter: NextPage = () => {
             </button>
           </div>
         </div>
-        <form className="flex flex-col mt-8">
+        {/* <form className="flex flex-col mt-8">
           <label htmlFor="input" className="text-sm font-medium text-gray-700">
             {method === "email" ? "Email address" : null}
             {method === "phone" ? "Phone number" : null}
@@ -70,6 +72,24 @@ const Enter: NextPage = () => {
             {method === "email" ? "Get login link" : null}
             {method === "phone" ? "Get one-time password" : null}
           </button>
+        </form> */}
+        <form className="flex flex-col mt-8 space-y-4">
+          {method === "email" ? (
+            <Input name="email" label="Email address" type="email" required />
+          ) : null}
+          {method === "phone" ? (
+            <Input
+              name="phone"
+              label="Phone number"
+              type="number"
+              kind="phone"
+              required
+            />
+          ) : null}
+          {method === "email" ? <Button text={"Get login link"} /> : null}
+          {method === "phone" ? (
+            <Button text={"Get one-time password"} />
+          ) : null}
         </form>
         <div className="mt-8">
           <div className="relative">
