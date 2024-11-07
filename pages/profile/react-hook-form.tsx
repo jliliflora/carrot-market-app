@@ -26,6 +26,7 @@ export default function Forms() {
   const onInvalid = (errors: FieldErrors) => {
     console.log(errors);
   };
+  console.log(watch());
 
   return (
     <form onSubmit={handleSubmit(onValid, onInvalid)}>
