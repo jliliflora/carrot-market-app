@@ -25,18 +25,20 @@ const Enter: NextPage = () => {
     setMethod("phone");
   };
   const onValid = (vaildForm: EnterForm) => {
-    // console.log(data);
+    /*
+    console.log(data);
 
-    // setSubmitting(true);
-    // fetch("/api/users/enter", {
-    //   method: "POST",
-    //   body: JSON.stringify(data),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   }, //req.body.email을 받기 위해서 설정해줘야함
-    // }).then(() => {
-    //   setSubmitting(false);
-    // });
+    setSubmitting(true);
+    fetch("/api/users/enter", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      }, //req.body.email을 받기 위해서 설정해줘야함
+    }).then(() => {
+      setSubmitting(false);
+    });
+    */
 
     if (loading) return; //이미 요청이 진행 중인 경우, 중복 요청을 방지하기 위해 함수를 중단하기 위한 장치!! loading이 true일 때, 즉, 요청이 아직 완료되지 않은 상태에서 사용자가 다시 onValid 함수를 실행하는 것을 막음
     enter(vaildForm);
