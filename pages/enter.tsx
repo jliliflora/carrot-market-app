@@ -42,7 +42,7 @@ const Enter: NextPage = () => {
     enter(vaildForm);
   };
   //   console.log(watch());
-  console.log(loading, data, error);
+  // console.log(loading, data, error); //브라우저 콘솔 출력
 
   return (
     <div className="mt-16 px-4">
