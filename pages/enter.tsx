@@ -11,6 +11,7 @@ interface EnterForm {
 }
 
 const Enter: NextPage = () => {
+  const [submitting, setSubmitting] = useState(false);
   const { register, handleSubmit, reset, watch } = useForm<EnterForm>();
 
   const [method, setMethod] = useState<"email" | "phone">("email");
@@ -23,7 +24,17 @@ const Enter: NextPage = () => {
     setMethod("phone");
   };
   const onValid = (data: EnterForm) => {
-    console.log(data);
+    // console.log(data);
+    setSubmitting(true);
+    fetch("/api/users/enter", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      }, //req.body.email을 받기 위해서 설정해줘야함
+    }).then(() => {
+      setSubmitting(false);
+    });
   };
   //   console.log(watch());
 
@@ -85,7 +96,7 @@ const Enter: NextPage = () => {
           ) : null}
           {method === "email" ? <Button text={"Get login link"} /> : null}
           {method === "phone" ? (
-            <Button text={"Get one-time password"} />
+            <Button text={submitting ? "Loading" : "Get one-time password"} />
           ) : null}
         </form>
 
