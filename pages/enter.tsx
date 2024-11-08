@@ -1,9 +1,10 @@
 import type { NextPage } from "next";
 import { useState } from "react";
-import { cls } from "./libs/utils";
+import { cls } from "./libs/client/utils";
 import Input from "./components/input";
 import Button from "./components/button";
 import { useForm } from "react-hook-form";
+import useMutation from "./libs/client/useMutation";
 
 interface EnterForm {
   email?: string;
@@ -11,7 +12,7 @@ interface EnterForm {
 }
 
 const Enter: NextPage = () => {
-  const [submitting, setSubmitting] = useState(false);
+  const [enter, { loading, data, error }] = useMutation("/api/users/enter");
   const { register, handleSubmit, reset, watch } = useForm<EnterForm>();
 
   const [method, setMethod] = useState<"email" | "phone">("email");
@@ -23,20 +24,25 @@ const Enter: NextPage = () => {
     reset();
     setMethod("phone");
   };
-  const onValid = (data: EnterForm) => {
+  const onValid = (vaildForm: EnterForm) => {
     // console.log(data);
-    setSubmitting(true);
-    fetch("/api/users/enter", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      }, //req.body.email을 받기 위해서 설정해줘야함
-    }).then(() => {
-      setSubmitting(false);
-    });
+
+    // setSubmitting(true);
+    // fetch("/api/users/enter", {
+    //   method: "POST",
+    //   body: JSON.stringify(data),
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   }, //req.body.email을 받기 위해서 설정해줘야함
+    // }).then(() => {
+    //   setSubmitting(false);
+    // });
+
+    if (loading) return; //이미 요청이 진행 중인 경우, 중복 요청을 방지하기 위해 함수를 중단하기 위한 장치!! loading이 true일 때, 즉, 요청이 아직 완료되지 않은 상태에서 사용자가 다시 onValid 함수를 실행하는 것을 막음
+    enter(vaildForm);
   };
   //   console.log(watch());
+  console.log(loading, data, error);
 
   return (
     <div className="mt-16 px-4">
@@ -94,9 +100,11 @@ const Enter: NextPage = () => {
               required
             />
           ) : null}
-          {method === "email" ? <Button text={"Get login link"} /> : null}
+          {method === "email" ? (
+            <Button text={loading ? "Loading" : "Get login link"} />
+          ) : null}
           {method === "phone" ? (
-            <Button text={submitting ? "Loading" : "Get one-time password"} />
+            <Button text={loading ? "Loading" : "Get one-time password"} />
           ) : null}
         </form>
 
