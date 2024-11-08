@@ -22,6 +22,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   const { phone, email } = req.body;
   const payload = phone ? { phone: +phone } : { email };
+  /*
   const user = await client.user.upsert({
     where: {
       // ...(phone ? { phone: +phone } : {}),
@@ -35,8 +36,31 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       ...payload,
     },
     update: {},
+  });*/
+  const token = await client.token.create({
+    data: {
+      payload: "1234",
+      user: {
+        // 이미 유저를 찾아서 토큰을 부여해줄수도 있고, 새로운 유저를 만듦과 동시에 새로운 토큰도 만들 수 있음
+        connectOrCreate: {
+          where: {
+            ...payload,
+          },
+          create: {
+            name: "Anonymous",
+            ...payload,
+          },
+        },
+
+        //이미 있는 유저에게 새로운 토큰을 부여해주는 코드
+        // connect: {
+        //   id: user.id,
+        // },
+      },
+    },
   });
-  console.log(user);
+  // console.log(user);
+  console.log(token);
 
   /*
   let user;
