@@ -2,6 +2,11 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 //function안에 function으로 우리가 원하는대로 설정해서 return할 수 있게끔 만들었음
 
+export interface ResponseType {
+  ok: boolean;
+  [key: string]: any;
+}
+
 export default function withHandler(
   method: "GET" | "POST" | "DELETE",
   fn: (req: NextApiRequest, res: NextApiResponse) => void
