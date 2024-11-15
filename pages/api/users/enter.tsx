@@ -1,7 +1,12 @@
+import twilio from "twilio";
 import { NextApiRequest, NextApiResponse } from "next";
 import client from "../../libs/server/client";
 import withHandler, { ResponseType } from "@/pages/libs/server/\bwithHandler";
 import { json } from "stream/consumers";
+import smtpTransport from "@/pages/libs/server/email";
+import { SentMessageInfo } from "nodemailer";
+
+const twilioClient = twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
 
 /*
 export default async function handler(
@@ -107,6 +112,41 @@ async function handler(
     }
     console.log(user);
   }*/
+
+  /*번호 인증키는 아직 잘... 대체 가능한 걸로 다시 시도해봐야할듯*/
+  if (phone) {
+    /*const message = await twilioClient.messages.create({
+      messagingServiceSid: process.env.TWILIO_MSID,
+      to: process.env.MY_PHONE!,
+      body: `Your login token is ${payload}.`,
+    });
+    console.log(message);*/
+  }
+
+  /*이메일 인증 보내기 성공~! */
+  if (email) {
+    /*const mailOptions = {
+      from: process.env.MAIL_ID,
+      to: email,
+      subject: "Nomad Carrot Authentication Email",
+      text: `Authentication Code : ${payload}`,
+    };
+    const result = smtpTransport.sendMail(
+      mailOptions,
+      (error: Error | null, res: SentMessageInfo) => {
+        if (error) {
+          console.log(error);
+          return null;
+        } else {
+          console.log(res);
+          return null;
+        }
+      }
+    );
+
+    smtpTransport.close();
+    console.log(result);*/
+  }
 
   return res.json({
     ok: true,
