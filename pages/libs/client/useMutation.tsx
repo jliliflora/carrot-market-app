@@ -3,21 +3,23 @@
 
 import { useState } from "react";
 
-interface UseMutationState {
+interface UseMutationState<T> {
   loading: boolean;
-  data?: object;
+  data?: T;
   error?: object;
 }
-type UseMutationResult = [(data: any) => void, UseMutationState];
+type UseMutationResult<T> = [(data: any) => void, UseMutationState<T>];
 
-export default function useMutation(url: string): UseMutationResult {
+export default function useMutation<T = any>(
+  url: string
+): UseMutationResult<T> {
   //   const [loading, setLoading] = useState(false);
   //   const [data, setData] = useState<undefined | any>(undefined);
   //   const [error, setError] = useState<undefined | any>(undefined);
 
   // useState를 사용해 state 상태 변수를 정의하며, 초기값으로 loading: false, data: undefined, error: undefined로 설정!
   // setState 함수는 상태를 업데이트하는 데 사용되는 것
-  const [state, setSate] = useState<UseMutationState>({
+  const [state, setSate] = useState<UseMutationState<T>>({
     loading: false,
     data: undefined,
     error: undefined,
