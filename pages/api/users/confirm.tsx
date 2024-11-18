@@ -1,7 +1,7 @@
 import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiRequest, NextApiResponse } from "next";
 import client from "../../libs/server/client";
-import withHandler, { ResponseType } from "@/pages/libs/server/\bwithHandler";
+import withHandler, { ResponseType } from "@/pages/libs/server/withHandler";
 import { withApiSession } from "@/pages/libs/server/withSesstion";
 
 async function handler(
@@ -41,7 +41,9 @@ async function handler(
   res.json({ ok: true });
 }
 
-export default withApiSession(withHandler("POST", handler));
+export default withApiSession(
+  withHandler({ method: "POST", handler, isPrivate: false })
+);
 //여기서 withHandler함수를 호출해서 이 withHandler함수의 return값을 가져와서 실행시키는거임
 /* 
 export default withIronSessionApiRoute(withHandler("POST", handler), {

@@ -1,7 +1,7 @@
 import twilio from "twilio";
 import { NextApiRequest, NextApiResponse } from "next";
 import client from "../../libs/server/client";
-import withHandler, { ResponseType } from "@/pages/libs/server/\bwithHandler";
+import withHandler, { ResponseType } from "@/pages/libs/server/withHandler";
 import { json } from "stream/consumers";
 import smtpTransport from "@/pages/libs/server/email";
 import { SentMessageInfo } from "nodemailer";
@@ -152,5 +152,5 @@ async function handler(
     ok: true,
   });
 }
-export default withHandler("POST", handler);
+export default withHandler({ method: "POST", handler, isPrivate: false });
 //여기서 withHandler함수를 호출해서 이 withHandler함수의 return값을 가져와서 실행시키는거임

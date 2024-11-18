@@ -3,7 +3,7 @@
 import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiRequest, NextApiResponse } from "next";
 import client from "../../libs/server/client";
-import withHandler, { ResponseType } from "@/pages/libs/server/\bwithHandler";
+import withHandler, { ResponseType } from "@/pages/libs/server/withHandler";
 import { withApiSession } from "@/pages/libs/server/withSesstion";
 
 async function handler(
@@ -23,7 +23,12 @@ async function handler(
   });
 }
 
-export default withApiSession(withHandler("GET", handler));
+export default withApiSession(
+  withHandler({
+    method: "GET",
+    handler,
+  })
+);
 /*
 export default withIronSessionApiRoute(withHandler("GET", handler), {
   cookieName: "carrotsession",
