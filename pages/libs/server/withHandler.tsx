@@ -12,7 +12,10 @@ export default function withHandler(
   fn: (req: NextApiRequest, res: NextApiResponse) => void
 ) {
   // 함수호출이 됐을 때, nextJS가 실행할 함수
-  return async function (req: NextApiRequest, res: NextApiResponse) {
+  return async function (
+    req: NextApiRequest,
+    res: NextApiResponse
+  ): Promise<any> {
     //첨부터 요청이 잘못들어왔을때, bad request로부터 보호하는 코드임
     if (req.method !== method) {
       return res.status(405).end();
