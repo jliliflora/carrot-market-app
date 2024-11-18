@@ -3,6 +3,8 @@ import localFont from "next/font/local";
 import Layout from "./components/layout";
 import FloatingButton from "./components/floating-button";
 import Item from "./components/item";
+import useUser from "./libs/client/useUser";
+import Head from "next/head";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -16,8 +18,14 @@ const geistMono = localFont({
 });
 
 export default function Home() {
+  const user = useUser(); //페이지에 데이터를 전달해주는 훅
+  console.log(user);
+
   return (
     <Layout title="홈" hasTabBar>
+      <Head>
+        <title>Home</title>
+      </Head>
       <div className="flex flex-col space-y-5 pt-5">
         {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
           <Item
