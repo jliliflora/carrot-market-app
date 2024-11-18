@@ -3,6 +3,14 @@ import { NextApiRequest, NextApiResponse } from "next";
 import client from "../../libs/server/client";
 import withHandler, { ResponseType } from "@/pages/libs/server/\bwithHandler";
 
+declare module "iron-session" {
+  interface IronSessionData {
+    user?: {
+      id: number;
+    };
+  }
+}
+
 async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
@@ -19,13 +27,13 @@ async function handler(
       payload: token,
     },
   });
-  if (!exists) res.status(404).end();
+  if (!exists) return res.status(404).end();
 
   // console.log(exists); //진짜 db에 있는 token을 입력하면 해당 유저의 토큰 정보를 출력함
 
   // 만약 token이 존재하면 그 유저의 id를 세션에 저장하는 것
   req.session.user = {
-    id: exists?.userId,
+    id: exists.userId,
   };
   await req.session.save(); //세션 데이터를 암호화하고 쿠키를 설정!! 이렇게 하면 세션 만들기 끝!
 
