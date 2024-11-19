@@ -42,7 +42,7 @@ async function handler(
 }
 
 export default withApiSession(
-  withHandler({ method: "POST", handler, isPrivate: false })
+  withHandler({ methods: ["POST"], handler, isPrivate: false })
 );
 //여기서 withHandler함수를 호출해서 이 withHandler함수의 return값을 가져와서 실행시키는거임
 /* 

@@ -5,6 +5,8 @@ import FloatingButton from "./components/floating-button";
 import Item from "./components/item";
 import useUser from "./libs/client/useUser";
 import Head from "next/head";
+import useSWR from "swr";
+import { Product } from "@prisma/client";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -17,9 +19,18 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
+//타입스크립트가 'product'를 모르는 상태였는데 useSWR를 사용하면 데이터가 어떤 모습인지 알려줄 수 있기 때문에 인터페이스를 선언해주는것!
+interface ProductsResponse {
+  ok: boolean;
+  products: Product[];
+}
+
 export default function Home() {
   const { user, isLoading } = useUser(); //페이지에 데이터를 전달해주는 훅
-  console.log(user);
+  // console.log(user);
+
+  const { data } = useSWR<ProductsResponse>("api/products");
+  console.log(data);
 
   return (
     <Layout title="홈" hasTabBar>
@@ -27,12 +38,12 @@ export default function Home() {
         <title>Home</title>
       </Head>
       <div className="flex flex-col space-y-5 pt-5">
-        {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
+        {data?.products?.map((product) => (
           <Item
-            id={i}
-            key={i}
-            title="iPhone 14"
-            price={99}
+            id={product.id}
+            key={product.id}
+            title={product.name}
+            price={product.price}
             comments={1}
             hearts={1}
           ></Item>

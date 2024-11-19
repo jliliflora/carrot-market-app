@@ -152,5 +152,5 @@ async function handler(
     ok: true,
   });
 }
-export default withHandler({ method: "POST", handler, isPrivate: false });
+export default withHandler({ methods: ["POST"], handler, isPrivate: false });
 //여기서 withHandler함수를 호출해서 이 withHandler함수의 return값을 가져와서 실행시키는거임

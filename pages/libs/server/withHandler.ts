@@ -7,15 +7,18 @@ export interface ResponseType {
   [key: string]: any;
 }
 
+// get, post를 둘 다 처리할 수 있게끔, 여러 method가 들어갈 수 있는 배열 형태로 만들어줌
+type method = "GET" | "POST" | "DELETE";
+
 // 2개 이상의 인자가 있다면 객체로 값들을 보내는 방식으로 코드를 정리할 수 있음
 interface ConfigType {
-  method: "GET" | "POST" | "DELETE";
+  methods: method[];
   handler: (req: NextApiRequest, res: NextApiResponse) => void;
   isPrivate?: boolean;
 }
 
 export default function withHandler({
-  method,
+  methods,
   isPrivate = true,
   handler,
 }: ConfigType) {
@@ -25,7 +28,7 @@ export default function withHandler({
     res: NextApiResponse
   ): Promise<any> {
     // 첨부터 요청이 잘못들어왔을때, bad request로부터 보호하는 코드임
-    if (req.method !== method) {
+    if (req.method && !methods.includes(req.method as any)) {
       return res.status(405).end();
     }
     // 유저가 로그인 상태인지 아닌지 체크하기
