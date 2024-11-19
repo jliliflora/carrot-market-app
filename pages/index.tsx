@@ -18,7 +18,7 @@ const geistMono = localFont({
 });
 
 export default function Home() {
-  const user = useUser(); //페이지에 데이터를 전달해주는 훅
+  const { user, isLoading } = useUser(); //페이지에 데이터를 전달해주는 훅
   console.log(user);
 
   return (
