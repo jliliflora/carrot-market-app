@@ -5,21 +5,37 @@ import TextArea from "../components/textarea";
 import Button from "../components/button";
 import { useForm } from "react-hook-form";
 import useMutation from "../libs/client/useMutation";
+import { useEffect } from "react";
+import { Product } from "@prisma/client";
+import { useRouter } from "next/router";
 
 interface UploadProductForm {
   name: string;
   price: number;
   description: string;
 }
+interface UploadProductMutation {
+  ok: boolean;
+  product: Product;
+}
 
 const Upload: NextPage = () => {
   const { register, handleSubmit } = useForm<UploadProductForm>();
-  const [uploadProduct, { loading, data }] = useMutation("/api/products");
+  const [uploadProduct, { loading, data }] =
+    useMutation<UploadProductMutation>("/api/products");
   const onValid = (data: UploadProductForm) => {
     if (loading) return;
     uploadProduct(data);
     console.log(data);
   };
+
+  const router = useRouter();
+  //data가 변경될때마다 실행시키고, data.ok가 참이면 product의 id로 redirect를 함
+  useEffect(() => {
+    if (data?.ok) {
+      router.push(`/products/${data.product.id}`);
+    }
+  }, [data, router]);
 
   return (
     <Layout canGoBack title="Upload Product">
