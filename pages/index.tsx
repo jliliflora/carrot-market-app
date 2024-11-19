@@ -94,7 +94,7 @@ export default function Home() {
         ))} */}
 
         {/* <button className="fixed hover:bg-orange-500 transition-colors cursor-pointer  bottom-24 right-5 shadow-xl bg-orange-400 rounded-full p-4 text-white"> */}
-        <FloatingButton href="/items/upload">
+        <FloatingButton href="/products/upload">
           <svg
             className="h-6 w-6"
             xmlns="http://www.w3.org/2000/svg"
