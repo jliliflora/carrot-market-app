@@ -1,4 +1,4 @@
-// 콘솔에서 이 해당 user의 id를 보는 것이 목표
+// post : product 데이터 만들기, get : product 데이터 가져오기
 
 import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiRequest, NextApiResponse } from "next";
