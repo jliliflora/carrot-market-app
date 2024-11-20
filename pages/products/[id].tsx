@@ -2,11 +2,12 @@ import type { NextPage } from "next";
 import Layout from "../components/layout";
 import Button from "../components/button";
 import { useRouter } from "next/router";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import Link from "next/link";
 import { Product, User } from "@prisma/client";
 import useMutation from "../libs/client/useMutation";
 import { cls } from "../libs/client/utils";
+import useUser from "../libs/client/useUser";
 
 interface ProductWithUser extends Product {
   user: User;
@@ -19,19 +20,29 @@ interface ItemDetailResponse {
 }
 
 const ItemDetail: NextPage = () => {
+  //내가 원한다면 언제어디서든 자유롭게 모든 컴포넌트들의 데이터를 변경이 가능함 = unboundmutate
+  const { user, isLoading } = useUser(); //unboundmutate 예시
+
   const router = useRouter();
   // console.log(router.query);
-  const { data, mutate } = useSWR<ItemDetailResponse>(
+
+  const { mutate } = useSWRConfig(); //unboundmutate 사용하려면 필요한 코드
+  const { data, mutate: boundMutate } = useSWR<ItemDetailResponse>(
     router.query.id ? `/api/products/${router.query.id}` : null
   );
   // console.log(data);
+
   const [toggleFav] = useMutation(`/api/products/${router.query.id}/fav`);
   const onFavClick = () => {
     //유저에게 화면이 변경된 것부터 보여준 후, 백엔드에 요청보내는 순서
     if (!data) return;
-    mutate({ ...data, isLiked: !data.isLiked }, false);
+    boundMutate({ ...data, isLiked: !data.isLiked }, false);
     //첫번째 인자에는 가짜데이터를 넣고, 두번째 인자가 true면 SWR이 다시 진짜 데이터를 찾아서 불러오는 것!
     //근데 나는 그냥 캐시만 변경할뿐이라 false로 냅둘거임!
+    // boundMutate((prev) => prev && { ...prev, isLiked: !prev.isLiked }, false); => 위와 같은 기능을 하는 코드인데 함수인자로 기존의 캐시를 받을 수 있는 방법임!
+
+    // 다른화면의 데이터를 변경해야할때 쓸 수 있는 예시코드! 표면적으로만 로그아웃을 시키는 코드임
+    // mutate("/api/users/me", (prev: any) => ({ ok: !prev.ok }), false);
     toggleFav({});
   };
 
