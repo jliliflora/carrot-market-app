@@ -19,10 +19,16 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
+interface ProductWithCount extends Product {
+  _count: {
+    favs: number;
+  };
+}
+
 //타입스크립트가 'product'를 모르는 상태였는데 useSWR를 사용하면 데이터가 어떤 모습인지 알려줄 수 있기 때문에 인터페이스를 선언해주는것!
 interface ProductsResponse {
   ok: boolean;
-  products: Product[];
+  products: ProductWithCount[];
 }
 
 export default function Home() {
@@ -30,7 +36,7 @@ export default function Home() {
   // console.log(user);
 
   const { data } = useSWR<ProductsResponse>("api/products");
-  console.log(data);
+  // console.log(data);
 
   return (
     <Layout title="홈" hasTabBar>
@@ -45,7 +51,7 @@ export default function Home() {
             title={product.name}
             price={product.price}
             comments={1}
-            hearts={1}
+            hearts={product._count.favs}
           ></Item>
         ))}
 
