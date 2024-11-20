@@ -29,8 +29,30 @@ async function handler(
       },
     },
   });
-  console.log(product);
-  res.json({ ok: true, product });
+  // console.log(product);
+
+  const terms = product?.name.split(" ").map((word) => ({
+    name: {
+      contains: word,
+    },
+  }));
+  // console.log(terms);
+  const relatedProducts = await client.product.findMany({
+    where: {
+      OR: terms,
+      //id가 현재 보고 있는 상품과 같지 않아야하는 조건 걸어주기
+      AND: {
+        id: {
+          not: product?.id,
+        },
+      },
+    },
+    //관련 상품이 4개만 보이도록
+    take: 4,
+  });
+  // console.log(relatedProducts);
+
+  res.json({ ok: true, product, relatedProducts });
 }
 
 export default withApiSession(
