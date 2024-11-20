@@ -20,6 +20,7 @@ model User {
   updatedAt DateTime  @updatedAt @db.Timestamptz(6)
   Token     Token[]
   Product   Product[]
+  fav       Fav[]
 }
 
 model Token {
@@ -41,6 +42,20 @@ model Product {
   name        String
   price       Int
   description String   @db.Text
+  favs        Fav[]
 }
 
 //Prisma에서 @db.MediumText는 MySQL이나 MariaDB 데이터베이스에서만 지원되는 Native Type임 ㅠㅠ PostgreSQL의 TEXT 타입은 MySQL의 TINYTEXT, TEXT, MEDIUMTEXT, LONGTEXT를 모두 포함하는 유사한 기능을 제공해서 이걸로 대체하겠음
+
+model Fav {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([productId])
+}
