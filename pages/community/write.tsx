@@ -2,12 +2,45 @@ import type { NextPage } from "next";
 import Layout from "../components/layout";
 import TextArea from "../components/textarea";
 import Button from "../components/button";
+import { useForm } from "react-hook-form";
+import useMutation from "../libs/client/useMutation";
+import { Post } from "@prisma/client";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+
+interface WriteForm {
+  question: string;
+}
+interface WriteResponse {
+  ok: boolean;
+  post: Post;
+}
+
 const Write: NextPage = () => {
+  const { register, handleSubmit } = useForm<WriteForm>();
+  const [post, { loading, data }] = useMutation<WriteResponse>("/api/posts");
+  const onValid = (data: WriteForm) => {
+    console.log(data);
+    if (loading) return; //data가 여러번 post 되지 않도록 리턴시키기
+    post(data);
+  };
+
+  const router = useRouter();
+  useEffect(() => {
+    if (data && data.ok) {
+      router.push(`/community/${data.post.id}`);
+    }
+  }, [data, router]);
+
   return (
     <Layout canGoBack title="Write Post">
-      <form className="p-4 space-y-4">
-        <TextArea required placeholder="Ask a question!" />
-        <Button text="Submit" />
+      <form onSubmit={handleSubmit(onValid)} className="p-4 space-y-4">
+        <TextArea
+          register={register("question", { required: true, minLength: 5 })}
+          required
+          placeholder="Ask a question!"
+        />
+        <Button text={loading ? "Loading..." : "Submit"} />
       </form>
     </Layout>
     // <form className="px-4 py-10">
