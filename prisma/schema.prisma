@@ -70,6 +70,8 @@ model Post {
   user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   question  String      @db.Text
+  longitude Float?
+  latitude  Float?
   answers   Answer[]
   wondering Wondering[]
 }

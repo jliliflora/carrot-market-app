@@ -13,12 +13,14 @@ async function handler(
   //여기서 콘솔 찍으면 백엔드 콘솔에서 확인가능함
   if (req.method === "POST") {
     const {
-      body: { question },
+      body: { question, latitude, longitude },
       session: { user },
     } = req;
     const post = await client.post.create({
       data: {
         question,
+        latitude,
+        longitude,
         user: {
           connect: {
             id: user?.id,
