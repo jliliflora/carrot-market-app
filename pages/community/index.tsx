@@ -37,6 +37,27 @@ const Community: NextPage = () => {
     <Layout hasTabBar title="동네생활">
       {Loading ? (
         <div className="pt-6 pl-4">Loading...</div>
+      ) : !data || data.posts.length === 0 ? (
+        <div className="pt-6 pl-4">
+          앗, 아직 아무도 소식을 전하지 않았어요.
+          <br /> 당신이 첫 소식을 들려주세요!
+          <FloatingButton href="/community/write">
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+              ></path>
+            </svg>
+          </FloatingButton>
+        </div>
       ) : (
         <div className="pt-6 space-y-8">
           {data?.posts.map((post) => (
