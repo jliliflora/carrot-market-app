@@ -5,6 +5,7 @@ import Link from "next/link";
 import useSWR from "swr";
 import { Post, User } from "@prisma/client";
 import { format } from "date-fns";
+import useCoords from "../libs/client/useCoords";
 
 interface PostWithUser extends Post {
   user: User;
@@ -20,8 +21,16 @@ interface PostsResponse {
 }
 
 const Community: NextPage = () => {
-  const { data } = useSWR<PostsResponse>(`api/posts`);
-  console.log(data);
+  // 현재 유저의 위치 좌표 구하는 코드
+  const { longitude, latitude } = useCoords();
+  // console.log(longitude, latitude);
+
+  const { data } = useSWR<PostsResponse>(
+    latitude && longitude
+      ? `/api/posts?latitude=${latitude}&longitude=${longitude}`
+      : null
+  );
+  // console.log(data);
   return (
     <Layout hasTabBar title="동네생활">
       <div className=" pt-8 space-y-8">

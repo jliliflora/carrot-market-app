@@ -11,11 +11,15 @@ async function handler(
   res: NextApiResponse<ResponseType>
 ) {
   //여기서 콘솔 찍으면 백엔드 콘솔에서 확인가능함
+
   if (req.method === "POST") {
     const {
       body: { question, latitude, longitude },
       session: { user },
+      // query,
     } = req;
+    // console.log(longitude, latitude);
+
     const post = await client.post.create({
       data: {
         question,
@@ -34,6 +38,12 @@ async function handler(
     });
   }
   if (req.method === "GET") {
+    const {
+      query: { latitude, longitude },
+    } = req;
+    // const parsedLatitude = parseFloat(latitude.toString());
+    // const parsedLongitue = parseFloat(longitude.toString());
+
     const posts = await client.post.findMany({
       include: {
         user: {
@@ -48,6 +58,16 @@ async function handler(
             wondering: true,
             answers: true,
           },
+        },
+      },
+      where: {
+        latitude: {
+          gte: Number(latitude) - 0.01,
+          lte: Number(latitude) + 0.01,
+        },
+        longitude: {
+          gte: Number(longitude) - 0.01,
+          lte: Number(longitude) + 0.01,
         },
       },
     });
