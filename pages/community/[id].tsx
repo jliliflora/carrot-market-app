@@ -7,6 +7,9 @@ import Link from "next/link";
 import { Answer, Post, User } from "@prisma/client";
 import useMutation from "../libs/client/useMutation";
 import { cls } from "../libs/client/utils";
+import { useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { format } from "date-fns";
 
 interface AnswerWithUser extends Answer {
   user: User;
@@ -24,15 +27,26 @@ interface CommunityPostResponse {
   post: PostWithUser;
   isWondering: boolean;
 }
+interface AnswerForm {
+  answer: string;
+}
+interface AnswerResponse {
+  ok: boolean;
+  response: Answer;
+}
 
 const CommunityPostDetail: NextPage = () => {
+  // 질문 게시물 데이터 가져오기
   const router = useRouter();
   const { data, mutate } = useSWR<CommunityPostResponse>(
     router.query.id ? `/api/posts/${router.query.id}` : null
   );
-  console.log(data);
-  //궁금해요 로직
-  const [wonder] = useMutation(`/api/posts/${router.query.id}/wonder`);
+  // console.log(data);
+
+  //궁금해요 버튼 로직
+  const [wonder, { loading }] = useMutation(
+    `/api/posts/${router.query.id}/wonder`
+  );
   const onWonderClick = () => {
     if (!data) return;
     // 백엔드 실행시키전에 화면부터 먼저 작동
@@ -52,8 +66,35 @@ const CommunityPostDetail: NextPage = () => {
       },
       false
     );
-    wonder({});
+    //엄청빨리 클릭하면 삭제요청이랑 생성요청이 동시에 날아가는 경우가 발생해서 꼬임이 발생함
+    //그래서 이전 요청이 완료된 후에만 백엔드 요청을 보내게 끔 if문 설정!
+    if (!loading) {
+      wonder({});
+    }
   };
+
+  // 답변창(댓글창) 로직
+  // question에 answer을 보내기 위한 코드
+  const [sendAnswer, { data: answerData, loading: answerLoading }] =
+    useMutation(`/api/posts/${router.query.id}/answers`);
+
+  const { register, handleSubmit, reset } = useForm<AnswerForm>();
+  const onValid = (form: AnswerForm) => {
+    // console.log(form);
+    //submit버튼을 눌러서 answer을 제출할때, answerLoading이 로딩중이라면 함수 종료 시키기
+    if (answerLoading) return;
+    //로딩중이 아니라면, form을 담아서 sendAnswer함수 실행
+    sendAnswer(form);
+  };
+
+  // answerData가 존재하고 동시에 answerData.ok응답을 받았으면 form을 비울거임
+  useEffect(() => {
+    if (answerData && answerData.ok) {
+      reset();
+      //mutate로 refetch해서 새로 등록된 댓글이 바로 화면에 보이도록 함
+      mutate();
+    }
+  }, [answerData, reset]);
 
   return (
     <Layout canGoBack>
@@ -132,23 +173,24 @@ const CommunityPostDetail: NextPage = () => {
                   {answer.user.name}
                 </span>
                 <span className="text-xs text-gray-500 block ">
-                  {answer.createdAt}
+                  {format(answer.createdAt, "yyyy-MM-dd HH:mm:ss")}
                 </span>
                 <p className="text-gray-700 mt-2">{answer.answer} </p>
               </div>
             </div>
           ))}
         </div>
-        <div className="px-4">
+        <form className="px-4" onSubmit={handleSubmit(onValid)}>
           <TextArea
             name="description"
             placeholder="Answer this question!"
             required
+            register={register("answer", { required: true, minLength: 5 })}
           />
           <button className="mt-2 w-full bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 focus:outline-none ">
-            Reply
+            {answerLoading ? "Loading..." : "Reply"}
           </button>
-        </div>
+        </form>
       </div>
     </Layout>
   );

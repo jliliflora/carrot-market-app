@@ -1,4 +1,4 @@
-// get : 동네생활 게시물 데이터 불러오기
+// post : 댓글(답글) 등록시키기
 
 import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -14,62 +14,44 @@ async function handler(
   const {
     query: { id },
     session: { user },
+    body: { answer },
   } = req;
   const post = await client.post.findUnique({
     where: {
       id: +id!,
     },
-    include: {
-      user: {
-        select: {
-          id: true,
-          name: true,
-          avatar: true,
-        },
-      },
-      answers: {
-        select: {
-          answer: true,
-          id: true,
-          createdAt: true,
-          user: {
-            select: {
-              id: true,
-              name: true,
-              avatar: true,
-            },
-          },
-        },
-      },
-      _count: {
-        select: {
-          answers: true,
-          wondering: true,
-        },
-      },
+    select: {
+      id: true,
     },
   });
-  const isWondering = Boolean(
-    await client.wondering.findFirst({
-      where: {
-        postId: +id!,
-        userId: user?.id,
+
+  const newAnswer = await client.answer.create({
+    data: {
+      user: {
+        connect: {
+          id: user?.id,
+        },
       },
-      select: {
-        id: true,
+      post: {
+        connect: {
+          id: +id!,
+        },
       },
-    })
-  );
+      answer,
+    },
+  });
+  console.log(newAnswer);
+
   res.json({
     ok: true,
-    post,
-    isWondering,
+    // post,
+    answer: newAnswer,
   });
 }
 
 export default withApiSession(
   withHandler({
-    methods: ["GET"],
+    methods: ["POST"],
     handler,
   })
 );
