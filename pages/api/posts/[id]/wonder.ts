@@ -1,4 +1,4 @@
-// post
+// post : 궁금해요 데이터 api
 
 import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiRequest, NextApiResponse } from "next";
