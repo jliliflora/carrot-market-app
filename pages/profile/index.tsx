@@ -18,7 +18,7 @@ const Profile: NextPage = () => {
   // 유저 데이터 가져오기
   const { user } = useUser();
   // 리뷰 데이터 가져오기
-  const { data } = useSWR<ReviewsResponse>("/api/reviews");
+  const { data } = useSWR<ReviewsResponse>(`/api/reviews`);
 
   return (
     <Layout hasTabBar title="나의 캐럿">

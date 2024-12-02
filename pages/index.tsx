@@ -19,7 +19,7 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-interface ProductWithCount extends Product {
+export interface ProductWithCount extends Product {
   _count: {
     favs: number;
   };
