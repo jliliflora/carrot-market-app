@@ -1,13 +1,19 @@
+import { User } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
+
+interface ProfileResponse {
+  ok: boolean;
+  profile: User;
+}
 
 // const fetcher = (url: string) => fetch(url).then((response) => response.json());
 // => 매번 useSWR을 사용할때마다 fetcher를 선언하고 사용하는 것은 효율적이지 않아서, Global SWRConfig를 사용해 리팩토링하였음! _app.tsx에서 확인 가능
 
 export default function useUser() {
   // const { data, error } = useSWR("/api/users/me", fetcher);
-  const { data, error } = useSWR("/api/users/me"); // 코드 한줄로 데이터 불러오기 쌉가능
+  const { data, error } = useSWR<ProfileResponse>("/api/users/me"); // 코드 한줄로 데이터 불러오기 쌉가능
   const router = useRouter();
 
   //useEffect는 data가 바뀌면 실행이 되도록!
