@@ -75,30 +75,37 @@ const Enter: NextPage = () => {
   return (
     <div className="mt-16 px-4">
       <h3 className="text-3xl font-bold text-center">Enter to Carrot</h3>
-      <div className="mt-12">
+      <div className="mt-11">
         {data?.ok ? (
-          <form
-            onSubmit={tokenHandleSubmit(onTokenValid)}
-            className="flex flex-col mt-8 space-y-4"
-          >
-            <Input
-              register={tokenRegister("token", {
-                required: true,
-              })}
-              name="token"
-              label="Confirmation Token"
-              type="number"
-              required
-            />
-            <Button text={tokenLoading ? "Loading" : "Confirm Token"} />
-          </form>
+          <>
+            <div className="flex flex-col items-center">
+              <h5 className="text-sm text-gray-500 font-medium">
+                메일함을 확인하시고 발송된 인증 코드를 입력해 주세요!
+              </h5>
+            </div>
+            <form
+              onSubmit={tokenHandleSubmit(onTokenValid)}
+              className="flex flex-col mt-8 space-y-4"
+            >
+              <Input
+                register={tokenRegister("token", {
+                  required: true,
+                })}
+                name="token"
+                label="Confirmation Token"
+                type="number"
+                required
+              />
+              <Button text={tokenLoading ? "Loading" : "Confirm Token"} />
+            </form>
+          </>
         ) : (
           <>
             <div className="flex flex-col items-center">
               <h5 className="text-sm text-gray-500 font-medium">
-                Enter using:
+                이메일을 입력해주세요!
               </h5>
-              <div className="grid  border-b  w-full mt-8 grid-cols-2 ">
+              <div className="grid  border-b  w-full mt-8 ">
                 <button
                   className={cls(
                     "pb-4 font-medium text-sm border-b-2",
@@ -110,7 +117,7 @@ const Enter: NextPage = () => {
                 >
                   Email
                 </button>
-                <button
+                {/* <button
                   className={cls(
                     "pb-4 font-medium text-sm border-b-2",
                     method === "phone"
@@ -120,7 +127,7 @@ const Enter: NextPage = () => {
                   onClick={onPhoneClick}
                 >
                   Phone
-                </button>
+                </button> */}
               </div>
             </div>
             <form
