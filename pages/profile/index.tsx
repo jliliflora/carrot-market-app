@@ -5,6 +5,9 @@ import useUser from "../libs/client/useUser";
 import useSWR from "swr";
 import { Review, User } from "@prisma/client";
 import { cls } from "../libs/client/utils";
+import useMutation from "../libs/client/useMutation";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 interface ReviewWithUser extends Review {
   createdBy: User;
@@ -13,24 +16,45 @@ interface ReviewsResponse {
   ok: boolean;
   reviews: ReviewWithUser[];
 }
+interface MutationResult {
+  ok: boolean;
+}
 
 const Profile: NextPage = () => {
+  const router = useRouter();
   // 유저 데이터 가져오기
   const { user } = useUser();
   // 리뷰 데이터 가져오기
   const { data } = useSWR<ReviewsResponse>(`/api/reviews`);
 
+  // 로그아웃
+  const [logout, { loading, data: logoutData }] =
+    useMutation<MutationResult>("/api/logout");
+
+  const handleLogout = () => {
+    if (loading) return;
+    logout({});
+    router.push("/enter");
+  };
+
   return (
     <Layout hasTabBar title="나의 캐럿">
       <div className="px-4">
-        <div className="flex items-center mt-4 space-x-3">
+        <div className="relative flex items-center mt-4 space-x-3">
           <div className="w-16 h-16 bg-slate-500 rounded-full" />
           <div className="flex flex-col">
             <span className="font-medium text-gray-900">{user?.name}</span>
             <Link href="/profile/edit" className="text-sm text-gray-700">
-              Edit profile &rarr;
+              프로필 편집 &rarr;
             </Link>
           </div>
+
+          <button
+            onClick={handleLogout}
+            className="absolute right-3 bottom-3 bg-orange-500 hover:bg-orange-600 text-white text-sm px-5 py-0.5 border border-transparent rounded-md shadow-sm font-medium focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 focus:outline-none"
+          >
+            {loading ? "로그아웃 중..." : "로그아웃"}
+          </button>
         </div>
         <div className="mt-10 flex justify-around">
           <Link href="/profile/sold" className="flex flex-col items-center">
@@ -99,40 +123,50 @@ const Profile: NextPage = () => {
             </span>
           </Link>
         </div>
-        {data?.reviews.map((review) => (
-          <div key={review.id} className="mt-12">
-            <div className="flex space-x-4 items-center">
-              <div className="w-12 h-12 rounded-full bg-slate-500" />
-              <div>
-                <h4 className="text-sm font-bold text-gray-800">
-                  {review.createdBy.name}
-                </h4>
-                <div className="flex items-center">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <svg
-                      key={star}
-                      className={cls(
-                        "h-5 w-5",
-                        review.score >= star
-                          ? "text-yellow-400"
-                          : "text-gray-400"
-                      )}
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
+
+        <div>
+          {data && data.reviews && data.reviews.length > 0 ? (
+            data?.reviews.map((review) => (
+              <div key={review.id} className="mt-12">
+                <div className="flex space-x-4 items-center">
+                  <div className="w-12 h-12 rounded-full bg-slate-500" />
+                  <div>
+                    <h4 className="text-sm font-bold text-gray-800">
+                      {review.createdBy.name}
+                    </h4>
+                    <div className="flex items-center">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <svg
+                          key={star}
+                          className={cls(
+                            "h-5 w-5",
+                            review.score >= star
+                              ? "text-yellow-400"
+                              : "text-gray-400"
+                          )}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          aria-hidden="true"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-4 text-gray-600 text-sm">
+                  <p>{review.review}</p>
                 </div>
               </div>
+            ))
+          ) : (
+            <div className="mt-12 border-t border-gray-300 pt-10 px-2 text-center text-gray-600">
+              앗, 거래 후기가 아직 없네요! <br />첫 후기를 남겨주실 분을
+              기다리고 있습니다 ✨
             </div>
-            <div className="mt-4 text-gray-600 text-sm">
-              <p>{review.review}</p>
-            </div>
-          </div>
-        ))}
+          )}
+        </div>
       </div>
     </Layout>
   );
