@@ -64,8 +64,10 @@ const Enter: NextPage = () => {
 
   const router = useRouter();
   useEffect(() => {
+    // console.log("tokenData:", tokenData);
     if (tokenData?.ok) {
-      router.push("/");
+      router.push("/", undefined, { shallow: false }); //강제 새로고침
+      // router.push("/?redirect=true"); => 캐시문제라면 이걸로 고치기
     }
   }, [tokenData, router]); //tokenData.ok가 참이면, 유저는 home으로 redirect하는 코드
 
