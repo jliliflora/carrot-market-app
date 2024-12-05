@@ -36,11 +36,11 @@ const Community: NextPage = () => {
   return (
     <Layout hasTabBar title="동네생활">
       {Loading ? (
-        <div className="pt-6 pl-4">Loading...</div>
-      ) : !data || data.posts.length === 0 ? (
-        <div className="pt-6 pl-4">
-          앗, 아직 아무도 소식을 전하지 않았어요.
-          <br /> 당신이 첫 소식을 들려주세요!
+        <div className="pt-6 text-center">Loading...</div>
+      ) : !data?.posts?.length ? (
+        <div className="pt-12 text-center">
+          아직 아무도 소식을 남기지 않았어요. <br /> 첫 번째 소식을 들려주시면
+          모두가 기다릴 거예요! 😊
           <FloatingButton href="/community/write">
             <svg
               className="w-6 h-6"
