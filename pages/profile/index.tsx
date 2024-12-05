@@ -34,8 +34,14 @@ const Profile: NextPage = () => {
   const handleLogout = () => {
     if (loading) return;
     logout({});
-    router.push("/enter");
   };
+
+  // logoutData.ok가 true일 때 로그인 페이지로 리다이렉트
+  useEffect(() => {
+    if (logoutData?.ok) {
+      router.push("/enter");
+    }
+  }, [logoutData, router]);
 
   return (
     <Layout hasTabBar title="나의 캐럿">
