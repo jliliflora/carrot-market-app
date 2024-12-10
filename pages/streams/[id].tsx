@@ -36,7 +36,10 @@ const StreamDetail: NextPage = () => {
   // get
   const router = useRouter();
   const { data, mutate } = useSWR<StreamResponse>(
-    router.query.id ? `/api/streams/${router.query.id}` : null
+    router.query.id ? `/api/streams/${router.query.id}` : null,
+    {
+      refreshInterval: 1000, //실시간기능을 제공 할 순 없지만, 새 메세지를 1초마다 확인하게끔 하는 코드
+    }
   );
 
   const { register, handleSubmit, reset } = useForm<MessageForm>();
@@ -47,14 +50,39 @@ const StreamDetail: NextPage = () => {
   const onValid = (form: MessageForm) => {
     if (loading) return;
     reset();
-    sendMessage(form);
+    //nextJS 서버리스 환경에선 실시간기능을 사용할 수 없음 => 그래서 그냥 화면에만 올라가도록 가짜실시간기능을 추가한 것 / 사용자에게 최대한 많은 실시간 경험을 제공하기 위한 코드
+    mutate(
+      (prev) =>
+        prev &&
+        ({
+          ...prev,
+          stream: {
+            ...prev.stream,
+            messages: [
+              ...prev.stream.messages,
+              {
+                id: Date.now(),
+                message: form.message,
+                user: {
+                  ...user,
+                },
+              },
+            ],
+          },
+        } as any),
+      false
+    ); //mutate는 캐시에 가짜 데이터를 넣을 수 있게 해주지만, 그 즉시 백엔드에서 이중확인함 그래서 그렇게하지않도록 false를 해둔것
+    sendMessage(form); //백엔드로 post 요청을 보내는 함수
   };
+
+  /*
   // 사용자가 새 메세지를 보낼 때마다 다시 fetch됨
   useEffect(() => {
     if (sendMessageData && sendMessageData.ok) {
       mutate();
     }
   }, [sendMessageData, mutate]);
+  */
 
   return (
     <Layout canGoBack>
