@@ -29,8 +29,8 @@ model User {
   sales           Sale[]
   purchases       Purchase[]
   record          Record[]
-  Stream          Stream[]
-  Message         Message[]
+  streams         Stream[]
+  messages        Message[]
 }
 
 model Token {
@@ -166,7 +166,7 @@ model Stream {
   price       Int
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      Int
-  Message     Message[]
+  messages    Message[]
 }
 
 model Message {
