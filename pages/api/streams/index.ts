@@ -15,6 +15,7 @@ async function handler(
   const {
     session: { user },
     body: { name, price, description },
+    query: { page },
   } = req;
   if (req.method === "POST") {
     const stream = await client.stream.create({
@@ -31,8 +32,23 @@ async function handler(
     });
     res.json({ ok: true, stream });
   } else if (req.method === "GET") {
-    const streams = await client.stream.findMany();
+    /*
+    const streams = await client.stream.findMany({
+      take: 10, //10개씩 가져오기
+      skip: 10, //이미 본 앞의 10개를 건너뛰고 다음 데이터 10개 가져오기
+    });
     res.json({ ok: true, streams });
+    */
+    if (!req.query.page) {
+      const streams = await client.stream.findMany();
+      res.json({ ok: true, streams });
+    } else {
+      const streams = await client.stream.findMany({
+        take: 10,
+        skip: 10 * (+page! - 1),
+      });
+      res.json({ ok: true, streams });
+    }
   }
 }
 
