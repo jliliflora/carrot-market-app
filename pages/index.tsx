@@ -7,6 +7,8 @@ import useUser from "./libs/client/useUser";
 import Head from "next/head";
 import useSWR from "swr";
 import { Product } from "@prisma/client";
+import { useEffect, useState } from "react";
+import Pagination from "./components/pagination";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -38,13 +40,23 @@ export default function Home() {
   const { data } = useSWR<ProductsResponse>("api/products");
   // console.log(data);
 
+  //pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalCount, setTotalCount] = useState<Number>();
+  const { data: limitData } = useSWR<ProductsResponse>(
+    `/api/products?page=${currentPage}`
+  );
+  useEffect(() => {
+    setTotalCount(data?.products?.length!);
+  }, [data]);
+
   return (
     <Layout title="홈" hasTabBar>
       <Head>
         <title>Home</title>
       </Head>
       <div className="flex flex-col space-y-5 pt-5">
-        {data?.products?.map((product) => (
+        {limitData?.products?.map((product) => (
           <Item
             id={product.id}
             key={product.id}
@@ -110,6 +122,11 @@ export default function Home() {
         ))} */}
 
         {/* <button className="fixed hover:bg-orange-500 transition-colors cursor-pointer  bottom-24 right-5 shadow-xl bg-orange-400 rounded-full p-4 text-white"> */}
+        <Pagination
+          totalCount={Number(totalCount)}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
         <FloatingButton href="/products/upload">
           <svg
             className="h-6 w-6"

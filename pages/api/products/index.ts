@@ -12,6 +12,37 @@ async function handler(
 ) {
   //여기서 콘솔 찍으면 백엔드 콘솔에서 확인가능함
   if (req.method === "GET") {
+    const {
+      query: { page },
+    } = req;
+
+    if (!req.query.page) {
+      const products = await client.product.findMany({
+        include: {
+          _count: {
+            select: {
+              favs: true,
+            },
+          },
+        },
+      });
+      res.json({ ok: true, products });
+    } else {
+      const products = await client.product.findMany({
+        include: {
+          _count: {
+            select: {
+              favs: true,
+            },
+          },
+        },
+        take: 10,
+        skip: 10 * (+page! - 1),
+      });
+      res.json({ ok: true, products });
+    }
+
+    /*
     const products = await client.product.findMany({
       //product가 자신이 갖고 있는 fav의 갯수를 가질 수 있음
       include: {
@@ -26,6 +57,7 @@ async function handler(
       ok: true,
       products,
     });
+    */
   }
   if (req.method === "POST") {
     const {

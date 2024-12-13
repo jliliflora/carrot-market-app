@@ -6,6 +6,8 @@ import useSWR from "swr";
 import { Post, User } from "@prisma/client";
 import { format } from "date-fns";
 import useCoords from "../libs/client/useCoords";
+import { useEffect, useState } from "react";
+import Pagination from "../components/pagination";
 
 interface PostWithUser extends Post {
   user: User;
@@ -33,11 +35,23 @@ const Community: NextPage = () => {
       : null
   );
   // console.log(data);
+
+  //pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalCount, setTotalCount] = useState<Number>();
+  const { data: limitData } = useSWR<PostsResponse>(
+    latitude && longitude
+      ? `/api/posts?latitude=${latitude}&longitude=${longitude}&page=${currentPage}`
+      : null
+  );
+  useEffect(() => {
+    setTotalCount(data?.posts?.length!);
+  }, [data]);
   return (
     <Layout hasTabBar title="동네생활">
       {Loading ? (
         <div className="pt-6 text-center">Loading...</div>
-      ) : !data?.posts?.length ? (
+      ) : !limitData?.posts?.length ? (
         <div className="pt-12 text-center">
           아직 아무도 소식을 남기지 않았어요. <br /> 첫 번째 소식을 들려주시면
           모두가 기다릴 거예요! 😊
@@ -60,7 +74,7 @@ const Community: NextPage = () => {
         </div>
       ) : (
         <div className="pt-6 space-y-8">
-          {data?.posts.map((post) => (
+          {limitData?.posts.map((post) => (
             <Link
               key={post.id}
               href={`/community/${post.id}`}
@@ -115,6 +129,12 @@ const Community: NextPage = () => {
               </div>
             </Link>
           ))}
+
+          <Pagination
+            totalCount={Number(totalCount)}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
 
           {/* {[1, 2, 3, 4, 5, 6].map((_, i) => (
           <div className="flex cursor-pointer flex-col items-start">

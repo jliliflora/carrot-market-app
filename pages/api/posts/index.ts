@@ -39,42 +39,72 @@ async function handler(
   }
   if (req.method === "GET") {
     const {
-      query: { latitude, longitude },
+      query: { latitude, longitude, page },
     } = req;
     // const parsedLatitude = parseFloat(latitude.toString());
     // const parsedLongitue = parseFloat(longitude.toString());
 
-    const posts = await client.post.findMany({
-      include: {
-        user: {
-          select: {
-            id: true,
-            name: true,
-            avatar: true,
+    if (!req.query.page) {
+      const posts = await client.post.findMany({
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              avatar: true,
+            },
+          },
+          _count: {
+            select: {
+              wondering: true,
+              answers: true,
+            },
           },
         },
-        _count: {
-          select: {
-            wondering: true,
-            answers: true,
+        where: {
+          latitude: {
+            gte: Number(latitude) - 0.01,
+            lte: Number(latitude) + 0.01,
+          },
+          longitude: {
+            gte: Number(longitude) - 0.01,
+            lte: Number(longitude) + 0.01,
           },
         },
-      },
-      where: {
-        latitude: {
-          gte: Number(latitude) - 0.01,
-          lte: Number(latitude) + 0.01,
+      });
+      res.json({ ok: true, posts });
+    } else {
+      const posts = await client.post.findMany({
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              avatar: true,
+            },
+          },
+          _count: {
+            select: {
+              wondering: true,
+              answers: true,
+            },
+          },
         },
-        longitude: {
-          gte: Number(longitude) - 0.01,
-          lte: Number(longitude) + 0.01,
+        where: {
+          latitude: {
+            gte: Number(latitude) - 0.01,
+            lte: Number(latitude) + 0.01,
+          },
+          longitude: {
+            gte: Number(longitude) - 0.01,
+            lte: Number(longitude) + 0.01,
+          },
         },
-      },
-    });
-    res.json({
-      ok: true,
-      posts,
-    });
+        take: 10,
+        skip: 10 * (+page! - 1),
+      });
+      res.json({ ok: true, posts });
+    }
   }
 }
 
