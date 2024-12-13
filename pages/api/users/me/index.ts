@@ -1,4 +1,4 @@
-// 콘솔에서 이 해당 user의 id를 보는 것이 목표
+// get : 유저 프로필 데이터 가져오기, post : 유저 프로필 정보 편집하기
 
 import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiRequest, NextApiResponse } from "next";

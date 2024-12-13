@@ -24,6 +24,9 @@ async function handler(
         select: { id: true, name: true, avatar: true },
       },
     },
+    orderBy: {
+      createdAt: "desc", // 내림차순으로 전체 데이터 정렬
+    },
   });
 
   res.json({

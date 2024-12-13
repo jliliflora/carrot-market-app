@@ -1,4 +1,4 @@
-// post : 동네생활 게시물 등록하기, get :
+// post : 동네생활 게시물 등록하기, get : 동네생활 게시물 데이터 가져오기 + 지역필터링
 
 import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -71,6 +71,9 @@ async function handler(
             lte: Number(longitude) + 0.01,
           },
         },
+        orderBy: {
+          createdAt: "desc", // 내림차순으로 전체 데이터 정렬
+        },
       });
       res.json({ ok: true, posts });
     } else {
@@ -102,6 +105,9 @@ async function handler(
         },
         take: 10,
         skip: 10 * (+page! - 1),
+        orderBy: {
+          createdAt: "desc", // 내림차순으로 전체 데이터 정렬
+        },
       });
       res.json({ ok: true, posts });
     }

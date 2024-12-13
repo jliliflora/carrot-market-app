@@ -1,4 +1,4 @@
-// get : 다른 유저들이 쓴 리뷰 데이터 가져오기
+// get : 스트리밍 데이터 가져오기, post : 새 스트리밍 게시물 데이터 만들기
 
 import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -40,12 +40,19 @@ async function handler(
     res.json({ ok: true, streams });
     */
     if (!req.query.page) {
-      const streams = await client.stream.findMany();
+      const streams = await client.stream.findMany({
+        orderBy: {
+          createdAt: "desc", // 내림차순으로 전체 데이터 정렬
+        },
+      });
       res.json({ ok: true, streams });
     } else {
       const streams = await client.stream.findMany({
         take: 10,
         skip: 10 * (+page! - 1),
+        orderBy: {
+          createdAt: "desc", // 내림차순으로 전체 데이터 정렬
+        },
       });
       res.json({ ok: true, streams });
     }
