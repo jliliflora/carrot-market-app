@@ -8,16 +8,31 @@ interface LayoutProps {
   canGoBack?: boolean;
   hasTabBar?: boolean;
   children: React.ReactNode;
+  canGoHome?: boolean;
+  canGoPosts?: boolean;
+  canGoStreams?: boolean;
 }
 export default function Layout({
   title,
   canGoBack,
   hasTabBar,
   children,
+  canGoHome,
+  canGoPosts,
+  canGoStreams,
 }: LayoutProps) {
   const router = useRouter();
   const onClick = () => {
     router.back();
+  };
+  const onClickHome = () => {
+    router.replace("/");
+  };
+  const onClickPosts = () => {
+    router.replace("/community");
+  };
+  const onClickStreams = () => {
+    router.replace("/streams");
   };
 
   return (
@@ -47,8 +62,71 @@ export default function Layout({
             </svg>
           </button>
         ) : null}
+        {canGoHome ? (
+          <button onClick={onClickHome} className="absolute left-4">
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M15 19l-7-7 7-7"
+              ></path>
+            </svg>
+          </button>
+        ) : null}
+        {canGoPosts ? (
+          <button onClick={onClickPosts} className="absolute left-4">
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M15 19l-7-7 7-7"
+              ></path>
+            </svg>
+          </button>
+        ) : null}
+        {canGoStreams ? (
+          <button onClick={onClickStreams} className="absolute left-4">
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M15 19l-7-7 7-7"
+              ></path>
+            </svg>
+          </button>
+        ) : null}
         {title ? (
-          <span className={cls(canGoBack ? "mx-auto" : "", "")}>{title}</span>
+          <span
+            className={cls(
+              canGoBack || canGoHome || canGoPosts || canGoStreams
+                ? "mx-auto"
+                : "",
+              ""
+            )}
+          >
+            {title}
+          </span>
         ) : null}
       </div>
       <div className={cls("pt-12", hasTabBar ? "pb-20" : "")}>{children}</div>
