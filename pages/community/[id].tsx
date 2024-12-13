@@ -29,6 +29,8 @@ interface CommunityPostResponse {
 }
 interface AnswerForm {
   answer: string;
+  //   formErrors?: string;
+  description?: { message: string };
 }
 interface AnswerResponse {
   ok: boolean;
@@ -78,7 +80,14 @@ const CommunityPostDetail: NextPage = () => {
   const [sendAnswer, { data: answerData, loading: answerLoading }] =
     useMutation(`/api/posts/${router.query.id}/answers`);
 
-  const { register, handleSubmit, reset } = useForm<AnswerForm>();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setError,
+    formState: { errors },
+    clearErrors,
+  } = useForm<AnswerForm>();
   const onValid = (form: AnswerForm) => {
     // console.log(form);
     //submit버튼을 눌러서 answer을 제출할때, answerLoading이 로딩중이라면 함수 종료 시키기
@@ -95,6 +104,15 @@ const CommunityPostDetail: NextPage = () => {
       mutate();
     }
   }, [answerData, reset]);
+
+  const checkLength = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    if (value.length < 5) {
+      setError("description", { message: "답변은 5글자 이상이어야 합니다." });
+    } else {
+      clearErrors("description"); // 에러를 명시적으로 초기화
+    }
+  };
 
   return (
     <Layout canGoPosts>
@@ -180,13 +198,21 @@ const CommunityPostDetail: NextPage = () => {
             </div>
           ))}
         </div>
-        <form className="px-4" onSubmit={handleSubmit(onValid)}>
+        <form className="px-4 relative" onSubmit={handleSubmit(onValid)}>
+          {errors.description &&
+            typeof errors.description.message === "string" && (
+              <p className="absolute -top-12 left-4 text-red-500 border border-red-500 rounded-xl px-4 py-2 max-w-xs bg-red-100 text-base opacity-85">
+                {errors.description.message}
+              </p>
+            )}
           <TextArea
             name="description"
             placeholder="Answer this question!"
             required
             register={register("answer", { required: true, minLength: 5 })}
+            onChange={checkLength}
           />
+
           <button className="mt-2 w-full bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 focus:outline-none ">
             {answerLoading ? "Loading..." : "Reply"}
           </button>
