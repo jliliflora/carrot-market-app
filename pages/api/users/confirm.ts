@@ -20,7 +20,13 @@ async function handler(
       payload: token,
     },
   });
-  if (!foundToken) return res.status(404).end();
+  // if (!foundToken) return res.status(404).end();
+  if (!foundToken) {
+    return res.status(404).json({
+      ok: false,
+      error: "올바른 토큰을 입력해 주세요!",
+    });
+  }
 
   // console.log(foundToken); //진짜 db에 있는 token을 입력하면 해당 유저의 토큰 정보를 출력함
 

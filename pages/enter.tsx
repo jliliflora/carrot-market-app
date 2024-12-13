@@ -13,9 +13,11 @@ interface EnterForm {
 }
 interface MutationResult {
   ok: boolean;
+  error?: string;
 }
 interface TokenForm {
   token: string;
+  formErrors?: string;
 }
 
 const Enter: NextPage = () => {
@@ -25,8 +27,12 @@ const Enter: NextPage = () => {
     useMutation<MutationResult>("/api/users/confirm");
 
   const { register, handleSubmit, reset, watch } = useForm<EnterForm>();
-  const { register: tokenRegister, handleSubmit: tokenHandleSubmit } =
-    useForm<TokenForm>();
+  const {
+    register: tokenRegister,
+    handleSubmit: tokenHandleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<TokenForm>();
 
   const [method, setMethod] = useState<"email" | "phone">("email");
   const onEmailClick = () => {
@@ -71,6 +77,13 @@ const Enter: NextPage = () => {
     }
   }, [tokenData, router]); //tokenData.ok가 참이면, 유저는 home으로 redirect하는 코드
 
+  // 토큰 에러메세지
+  useEffect(() => {
+    if (tokenData && !tokenData.ok && tokenData.error) {
+      setError("root.empty", { message: tokenData.error });
+    }
+  }, [tokenData, setError]);
+
   // console.log(watch());
   // console.log(loading, data, error); //브라우저 콘솔 출력
 
@@ -98,6 +111,11 @@ const Enter: NextPage = () => {
                 type="number"
                 required
               />
+              {errors.root?.empty ? (
+                <span className="my-2 text-red-500 font-medium text-center block text-sm">
+                  {errors.root.empty.message}
+                </span>
+              ) : null}
               <Button text={tokenLoading ? "Loading" : "Confirm Token"} />
             </form>
           </>

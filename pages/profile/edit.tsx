@@ -48,9 +48,13 @@ const EditProfile: NextPage = () => {
     if (loading) return;
 
     //email, phone 둘다 비어있으면 안됨
-    if (email === "" && phone === "" && name === "") {
+    if (email === "" && phone === "") {
       return setError("root.empty", {
-        message: "You must provide at least one field",
+        message: "이메일 또는 전화번호는 필수입니다.",
+      });
+    } else if (name === "") {
+      return setError("root.empty", {
+        message: "이름을 입력해주세요!",
       });
     }
     /*else {
@@ -121,7 +125,7 @@ const EditProfile: NextPage = () => {
           kind="phone"
         />
         {errors.root?.empty ? (
-          <span className="my-2 text-red-500 font-medium text-center block">
+          <span className="my-2 text-red-500 font-medium text-center block text-sm">
             {errors.root.empty.message}
           </span>
         ) : null}
