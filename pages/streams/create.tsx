@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import useMutation from "../libs/client/useMutation";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import useUser from "../libs/client/useUser";
 
 interface CreateForm {
   name: string;
@@ -20,6 +21,10 @@ interface CreateResponse {
 }
 
 const Create: NextPage = () => {
+  //로그인이 안됐을때 enter로 redirect
+  const { user } = useUser();
+  // console.log(user);
+
   const router = useRouter();
   const [createStream, { loading, data }] =
     useMutation<CreateResponse>(`/api/streams`);

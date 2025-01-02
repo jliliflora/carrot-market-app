@@ -8,6 +8,7 @@ import { format } from "date-fns";
 import useCoords from "../libs/client/useCoords";
 import { useEffect, useState } from "react";
 import Pagination from "../components/pagination";
+import useUser from "../libs/client/useUser";
 
 interface PostWithUser extends Post {
   user: User;
@@ -23,6 +24,10 @@ interface PostsResponse {
 }
 
 const Community: NextPage = () => {
+  //로그인이 안됐을때 enter로 redirect
+  const { user } = useUser();
+  // console.log(user);
+
   // 현재 유저의 위치 좌표 구하는 코드
   const { longitude, latitude } = useCoords();
   // console.log(longitude, latitude);
@@ -47,6 +52,7 @@ const Community: NextPage = () => {
   useEffect(() => {
     setTotalCount(data?.posts?.length!);
   }, [data]);
+
   return (
     <Layout hasTabBar title="동네생활">
       {Loading ? (

@@ -8,6 +8,7 @@ import { Post } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import useCoords from "../libs/client/useCoords";
+import useUser from "../libs/client/useUser";
 
 interface WriteForm {
   question: string;
@@ -18,6 +19,10 @@ interface WriteResponse {
 }
 
 const Write: NextPage = () => {
+  //로그인이 안됐을때 enter로 redirect
+  const { user } = useUser();
+  // console.log(user);
+
   //위치 받는 hook
   const { latitude, longitude } = useCoords();
   const { register, handleSubmit } = useForm<WriteForm>();

@@ -1,7 +1,13 @@
 import type { NextPage } from "next";
 import Layout from "../components/layout";
 import Message from "../components/message";
+import useUser from "../libs/client/useUser";
+
 const ChatDetail: NextPage = () => {
+  //로그인이 안됐을때 enter로 redirect
+  const { user } = useUser();
+  // console.log(user);
+
   return (
     <Layout canGoBack title="Steve">
       <div className="py-10 pb-16 px-4 space-y-4">

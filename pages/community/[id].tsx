@@ -10,6 +10,7 @@ import { cls } from "../libs/client/utils";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { format } from "date-fns";
+import useUser from "../libs/client/useUser";
 
 interface AnswerWithUser extends Answer {
   user: User;
@@ -38,6 +39,10 @@ interface AnswerResponse {
 }
 
 const CommunityPostDetail: NextPage = () => {
+  //로그인이 안됐을때 enter로 redirect
+  const { user } = useUser();
+  // console.log(user);
+
   // 질문 게시물 데이터 가져오기
   const router = useRouter();
   const { data, mutate } = useSWR<CommunityPostResponse>(

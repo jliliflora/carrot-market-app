@@ -1,7 +1,13 @@
 import type { NextPage } from "next";
 import Layout from "../components/layout";
 import Link from "next/link";
+import useUser from "../libs/client/useUser";
+
 const Chats: NextPage = () => {
+  //로그인이 안됐을때 enter로 redirect
+  const { user } = useUser();
+  // console.log(user);
+
   return (
     <Layout hasTabBar title="채팅">
       <div className=" divide-y-[1px] ">

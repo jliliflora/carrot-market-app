@@ -8,6 +8,7 @@ import useMutation from "../libs/client/useMutation";
 import { useEffect } from "react";
 import { Product } from "@prisma/client";
 import { useRouter } from "next/router";
+import useUser from "../libs/client/useUser";
 
 interface UploadProductForm {
   name: string;
@@ -20,13 +21,17 @@ interface UploadProductMutation {
 }
 
 const Upload: NextPage = () => {
+  //로그인이 안됐을때 enter로 redirect
+  const { user } = useUser();
+  // console.log(user);
+
   const { register, handleSubmit } = useForm<UploadProductForm>();
   const [uploadProduct, { loading, data }] =
     useMutation<UploadProductMutation>("/api/products");
   const onValid = (data: UploadProductForm) => {
     if (loading) return;
     uploadProduct(data);
-    console.log(data);
+    // console.log(data);
   };
 
   const router = useRouter();

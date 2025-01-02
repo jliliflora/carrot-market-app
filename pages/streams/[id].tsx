@@ -31,7 +31,7 @@ interface MessageForm {
 }
 
 const StreamDetail: NextPage = () => {
-  // 유저 본인이 보낸 메세지인지 id 확인을 위해 가져온거
+  // 유저 본인이 보낸 메세지인지 id 확인을 위해 가져온거 + 이 코드를 통해 로그인 필터링까지 해줌
   const { user } = useUser();
   // get
   const router = useRouter();
