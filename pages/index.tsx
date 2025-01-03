@@ -50,19 +50,30 @@ export default function Home() {
     setTotalCount(data?.products?.length!);
   }, [data]);
 
+  const imageUrls = [
+    "https://cdn.011st.com/11dims/resize/1000x1000/quality/75/11src/product/5264024175/A1.jpg?94000000",
+    "https://thumbnail7.coupangcdn.com/thumbnails/remote/492x492ex/image/retail/images/2613099815000501-a5c761c8-d030-4a6e-ab28-9632b090f808.jpg",
+    "https://static.coupangcdn.com/image/retail/images/8321874853715330-45af15af-feb1-461b-939d-aaebc331c8a2.jpg",
+    "https://thumbnail10.coupangcdn.com/thumbnails/remote/492x492ex/image/retail/images/2023/09/21/14/7/f63b8081-fe80-48b7-92e7-1e9998b4b9c9.jpg",
+  ];
+
   return (
     <Layout title="홈" hasTabBar>
       <Head>
         <title>Home</title>
       </Head>
       <div className="flex flex-col space-y-5 pt-5">
-        {limitData?.products?.map((product) => (
+        {limitData?.products?.map((product, index) => (
           <Item
             id={product.id}
             key={product.id}
             title={product.name}
             price={product.price}
             hearts={product._count.favs}
+            imageUrl={
+              imageUrls[index] ||
+              "https://ossisconsult.com/includes/uploads/projects/default.jpg"
+            }
           ></Item>
         ))}
 

@@ -25,6 +25,7 @@ const ItemDetail: NextPage = () => {
 
   const router = useRouter();
   // console.log(router.query);
+  const { id, imageUrl } = router.query;
 
   const { mutate } = useSWRConfig(); //unboundmutate 사용하려면 필요한 코드
   const { data, mutate: boundMutate } = useSWR<ItemDetailResponse>(
@@ -50,7 +51,14 @@ const ItemDetail: NextPage = () => {
     <Layout canGoHome>
       <div className="px-4 py-4">
         <div className="mb-8">
-          <div className="h-96 bg-slate-300" />
+          {imageUrl && (
+            <img
+              src={imageUrl as string}
+              alt={`Product ${id}`}
+              className="h-96 bg-slate-300 mx-auto mb-4"
+            />
+          )}
+
           <div className="flex cursor-pointer py-3 border-t border-b items-center space-x-3">
             <div className="w-12 h-12 rounded-full bg-slate-300" />
             <div>
