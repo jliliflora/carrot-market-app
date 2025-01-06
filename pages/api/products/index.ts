@@ -84,11 +84,26 @@ async function handler(
         },
       },
     });
+    const sale = await client.sale.create({
+      data: {
+        user: {
+          connect: {
+            id: user?.id, // 현재 사용자 연결
+          },
+        },
+        product: {
+          connect: {
+            id: product.id, // 생성된 Product 연결
+          },
+        },
+      },
+    });
 
     // 현재 이메일 인증키를 받고 화면 출력시키는 것까지는 전혀 문제 없음, 폰번호는 현재 BigInt형 때문에 문제가 생기는거 같은데 이멜 인증만 진행할거라서 패쓰하겟음
     res.json({
       ok: true,
       product,
+      sale,
     });
   }
 }
