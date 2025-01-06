@@ -51,12 +51,16 @@ const ItemDetail: NextPage = () => {
     <Layout canGoHome>
       <div className="px-4 py-4">
         <div className="mb-8">
-          {imageUrl && (
+          {imageUrl ? (
             <img
               src={imageUrl as string}
               alt={`Product ${id}`}
               className="h-96 bg-slate-300 mx-auto mb-4"
             />
+          ) : (
+            <div className="h-96 mx-auto mb-5">
+              <img src="https://ossisconsult.com/includes/uploads/projects/default.jpg" />
+            </div>
           )}
 
           <div className="flex cursor-pointer py-3 border-t border-b items-center space-x-3">
