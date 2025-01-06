@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import Layout from "../components/layout";
 import Link from "next/link";
 import useUser from "../libs/client/useUser";
+import DemoAlert from "../components/demoalert";
 
 const Chats: NextPage = () => {
   //로그인이 안됐을때 enter로 redirect
@@ -26,12 +27,7 @@ const Chats: NextPage = () => {
             </div>
           </Link>
         ))}
-        <div className="divide-y-0">
-          <p className="fixed bottom-24 left-1/2 translate-x-[-50%] bg-orange-200 bg-opacity-50 border border-orange-300 rounded-xl px-4 py-2 w-[300px] text-center text-orange-500">
-            이 페이지는 데모용으로 제공됩니다.
-            <br /> 프리뷰를 통해 미리 둘러보고 가세요! 🚧
-          </p>
-        </div>
+        <DemoAlert />
       </div>
     </Layout>
   );

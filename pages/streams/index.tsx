@@ -7,6 +7,7 @@ import useSWR from "swr";
 import { useEffect, useState } from "react";
 import Pagination from "../components/pagination";
 import useUser from "../libs/client/useUser";
+import DemoAlert from "../components/demoalert";
 
 interface StreamsResponse {
   ok: boolean;
@@ -46,6 +47,7 @@ const Streams: NextPage = () => {
             </h1>
           </Link>
         ))}
+        <DemoAlert />
 
         {/* {[1, 1, 1, 1, 1, 1, 1].map((_, i) => (
           <div className="pt-4  px-4" key={i}>
