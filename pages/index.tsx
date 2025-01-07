@@ -55,19 +55,19 @@ export default function Home() {
   const imageUrls = [
     {
       id: 1,
-      url: "https://thumbnail10.coupangcdn.com/thumbnails/remote/492x492ex/image/retail/images/2023/09/21/14/7/f63b8081-fe80-48b7-92e7-1e9998b4b9c9.jpg",
+      url: "/images/Tab.jpg",
     },
     {
       id: 2,
-      url: "https://static.coupangcdn.com/image/retail/images/8321874853715330-45af15af-feb1-461b-939d-aaebc331c8a2.jpg",
+      url: "/images/S22.jpg",
     },
     {
       id: 3,
-      url: "https://thumbnail7.coupangcdn.com/thumbnails/remote/492x492ex/image/retail/images/2613099815000501-a5c761c8-d030-4a6e-ab28-9632b090f808.jpg",
+      url: "/images/iPhone15.jpg",
     },
     {
       id: 4,
-      url: "https://cdn.011st.com/11dims/resize/1000x1000/quality/75/11src/product/5264024175/A1.jpg?94000000",
+      url: "/images/Max.jpg",
     },
   ];
 
@@ -80,7 +80,7 @@ export default function Home() {
         {limitData?.products?.map((product) => {
           const imageUrl =
             imageUrls.find((image) => image.id === product.id)?.url ||
-            "https://ossisconsult.com/includes/uploads/projects/default.jpg";
+            "/images/default.jpg";
 
           return (
             <Item

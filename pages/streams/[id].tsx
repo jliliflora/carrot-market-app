@@ -26,6 +26,7 @@ interface StreamResponse {
 interface MessageForm {
   message: string;
 }
+/*
 interface ChatStream {
   id: number;
   messages: {
@@ -37,10 +38,10 @@ interface ChatStream {
     };
   }[];
 }
-
 interface ChatCache {
   stream: ChatStream;
 }
+  */
 
 const StreamDetail: NextPage = () => {
   // 유저 본인이 보낸 메세지인지 id 확인을 위해 가져온거 + 이 코드를 통해 로그인 필터링까지 해줌
@@ -57,7 +58,7 @@ const StreamDetail: NextPage = () => {
   const { register, handleSubmit, reset } = useForm<MessageForm>();
 
   //   const [sendMessage, { loading, data: sendMessageData }] = useMutation => data: sendMessageData 이게 지금 사용을 안해서 일단 주석처리
-  const [sendMessage, { loading, data: sendMessageData }] = useMutation(
+  const [sendMessage, { loading }] = useMutation(
     `/api/streams/${router.query.id}/messages`
   );
   const onValid = (form: MessageForm) => {

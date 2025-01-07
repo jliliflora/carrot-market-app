@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Layout from "../components/layout";
 import Button from "../components/button";
 import { useRouter } from "next/router";
-import useSWR, { useSWRConfig } from "swr";
+import useSWR from "swr";
 import Link from "next/link";
 import { Product, User } from "@prisma/client";
 import useMutation from "../libs/client/useMutation";
@@ -61,12 +61,16 @@ const ItemDetail: NextPage = () => {
             <Image
               src={imageUrl as string}
               alt={`Product ${id}`}
-              className="h-96 bg-slate-300 mx-auto mb-4"
+              width={544}
+              height={384}
+              className="w-full h-96 bg-slate-300 mx-auto mb-4"
             />
           ) : (
             <Image
-              src="https://ossisconsult.com/includes/uploads/projects/default.jpg"
+              src="/images/default.jpg"
               alt={`Product ${id}`}
+              width={544}
+              height={384}
               className="h-96 mx-auto mb-5"
             />
           )}

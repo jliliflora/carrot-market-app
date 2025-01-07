@@ -28,11 +28,10 @@ export default function Item({
     >
       <div className="flex space-x-4">
         <Image
-          src={
-            imageUrl ||
-            "https://ossisconsult.com/includes/uploads/projects/default.jpg"
-          }
+          src={imageUrl || "/images/default.jpg"}
           alt={title}
+          width={80}
+          height={80}
           className="w-20 h-20 bg-gray-400 rounded-md object-cover"
         />
 
