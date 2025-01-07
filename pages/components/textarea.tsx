@@ -4,7 +4,7 @@ interface TextAreaProps {
   label?: string;
   name?: string;
   register: UseFormRegisterReturn;
-  [key: string]: any;
+  [key: string]: unknown; //any 타입이 너무 사용되어 에러발생 =>unknown은 any와 비슷하지만, 값을 사용하기 전에 타입 검사를 해야 하기 때문에 더 안전하다!
 }
 export default function TextArea({
   label,

@@ -25,7 +25,7 @@ interface PostsResponse {
 
 const Community: NextPage = () => {
   //로그인이 안됐을때 enter로 redirect
-  const { user } = useUser();
+  const {} = useUser();
   // console.log(user);
 
   // 현재 유저의 위치 좌표 구하는 코드
@@ -43,14 +43,14 @@ const Community: NextPage = () => {
 
   //pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalCount, setTotalCount] = useState<Number>();
+  const [totalCount, setTotalCount] = useState<number>();
   const { data: limitData } = useSWR<PostsResponse>(
     latitude && longitude
       ? `/api/posts?latitude=${latitude}&longitude=${longitude}&page=${currentPage}`
       : null
   );
   useEffect(() => {
-    setTotalCount(data?.posts?.length!);
+    setTotalCount(data?.posts?.length ?? 0); // length가 undefined일 경우 0을 기본값으로 사용
   }, [data]);
 
   return (

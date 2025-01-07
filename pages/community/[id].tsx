@@ -33,14 +33,10 @@ interface AnswerForm {
   //   formErrors?: string;
   description?: { message: string };
 }
-interface AnswerResponse {
-  ok: boolean;
-  response: Answer;
-}
 
 const CommunityPostDetail: NextPage = () => {
   //로그인이 안됐을때 enter로 redirect
-  const { user } = useUser();
+  const {} = useUser();
   // console.log(user);
 
   // 질문 게시물 데이터 가져오기

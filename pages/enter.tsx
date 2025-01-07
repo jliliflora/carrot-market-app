@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 interface EnterForm {
   email?: string;
   phone?: string;
+  ok: boolean; // 추가
 }
 interface MutationResult {
   ok: boolean;
@@ -18,15 +19,16 @@ interface MutationResult {
 interface TokenForm {
   token: string;
   formErrors?: string;
+  ok: boolean; // 추가
 }
 
 const Enter: NextPage = () => {
-  const [enter, { loading, data, error }] =
+  const [enter, { loading, data }] =
     useMutation<MutationResult>("/api/users/enter");
   const [confirmToken, { loading: tokenLoading, data: tokenData }] =
     useMutation<MutationResult>("/api/users/confirm");
 
-  const { register, handleSubmit, reset, watch } = useForm<EnterForm>();
+  const { register, handleSubmit, reset } = useForm<EnterForm>();
   const {
     register: tokenRegister,
     handleSubmit: tokenHandleSubmit,
@@ -39,10 +41,11 @@ const Enter: NextPage = () => {
     reset();
     setMethod("email");
   };
+  /* 사용안해서 주석처리
   const onPhoneClick = () => {
     reset();
     setMethod("phone");
-  };
+  }; */
   const onValid = (vaildForm: EnterForm) => {
     /*
     console.log(data);

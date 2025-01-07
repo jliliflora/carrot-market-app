@@ -2,11 +2,11 @@ import { cls } from "../libs/client/utils";
 interface MessageProps {
   message: string;
   reversed?: boolean;
-  avatarUrl?: string;
+  // avatarUrl?: string;
 }
 export default function Message({
   message,
-  avatarUrl,
+  // avatarUrl,
   reversed,
 }: MessageProps) {
   return (

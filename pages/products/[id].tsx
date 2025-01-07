@@ -22,7 +22,8 @@ interface ItemDetailResponse {
 
 const ItemDetail: NextPage = () => {
   //내가 원한다면 언제어디서든 자유롭게 모든 컴포넌트들의 데이터를 변경이 가능함 = unboundmutate
-  const { user, isLoading } = useUser(); //unboundmutate 예시
+  const {} = useUser(); //unboundmutate 예시
+  // console.log(user, isLoading);
 
   const router = useRouter();
   // console.log(router.query);

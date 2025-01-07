@@ -1,5 +1,3 @@
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import { cls } from "../libs/client/utils";
 import React from "react";
 

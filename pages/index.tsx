@@ -1,4 +1,3 @@
-import Image from "next/image";
 import localFont from "next/font/local";
 import Layout from "./components/layout";
 import FloatingButton from "./components/floating-button";
@@ -10,6 +9,7 @@ import { Product } from "@prisma/client";
 import { useEffect, useState } from "react";
 import Pagination from "./components/pagination";
 
+/* 사용안해서 주석처리
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -20,6 +20,7 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
+*/
 
 export interface ProductWithCount extends Product {
   _count: {
@@ -34,20 +35,21 @@ interface ProductsResponse {
 }
 
 export default function Home() {
-  const { user, isLoading } = useUser(); //페이지에 데이터를 전달해주는 훅
-  // console.log(user);
+  const {} = useUser(); //페이지에 데이터를 전달해주는 훅
+  // console.log(user, isLoading);
 
   const { data } = useSWR<ProductsResponse>("api/products");
   // console.log(data);
 
   //pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalCount, setTotalCount] = useState<Number>();
+  const [totalCount, setTotalCount] = useState<number>(); // 대문자 Number는 객체 타입이고, 소문자 number는 원시 타입 => useState<number>()와 같이 원시 타입 number를 사용해야함!!
   const { data: limitData } = useSWR<ProductsResponse>(
     `/api/products?page=${currentPage}`
   );
   useEffect(() => {
-    setTotalCount(data?.products?.length!);
+    // setTotalCount(data?.products?.length!); => 옵셔널 체이닝 (?.)과 널이 아니라고 강제하는 단언 연산자 (!)를 동시에 사용하여 에러 발생
+    setTotalCount(data?.products?.length ?? 0); // length가 undefined일 경우 0을 기본값으로 사용
   }, [data]);
 
   const imageUrls = [

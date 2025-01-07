@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Image from "next/image";
+
 interface ItemProps {
   title: string;
   id: number;
@@ -25,8 +27,11 @@ export default function Item({
       className="flex px-4 border-b pb-5 cursor-pointer justify-between"
     >
       <div className="flex space-x-4">
-        <img
-          src={imageUrl}
+        <Image
+          src={
+            imageUrl ||
+            "https://ossisconsult.com/includes/uploads/projects/default.jpg"
+          }
           alt={title}
           className="w-20 h-20 bg-gray-400 rounded-md object-cover"
         />

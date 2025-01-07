@@ -16,7 +16,7 @@ interface StreamsResponse {
 
 const Streams: NextPage = () => {
   //로그인이 안됐을때 enter로 redirect
-  const { user } = useUser();
+  const {} = useUser();
   // console.log(user);
 
   const [currentPage, setCurrentPage] = useState(1);

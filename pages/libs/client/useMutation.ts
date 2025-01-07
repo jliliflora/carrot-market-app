@@ -8,14 +8,16 @@ interface UseMutationState<T> {
   data?: T;
   error?: object;
 }
-type UseMutationResult<T> = [(data: any) => void, UseMutationState<T>];
+// UseMutationResult의 data 타입을 T로 변경 => T는 useMutation 함수의 제네릭 타입으로, 데이터의 타입을 지정하는 역할을 하는데, T는 useMutation 함수에서 호출 시 명시된 타입에 따라 결정된다
+type UseMutationResult<T> = [(data: T) => void, UseMutationState<T>];
 
-export default function useMutation<T = any>(
-  url: string
-): UseMutationResult<T> {
-  //   const [loading, setLoading] = useState(false);
-  //   const [data, setData] = useState<undefined | any>(undefined);
-  //   const [error, setError] = useState<undefined | any>(undefined);
+// useMutation 함수의 제네릭 타입 T를 사용하여 반환값에 타입을 명확하게 지정
+export default function useMutation<T>(url: string): UseMutationResult<T> {
+  /*
+    const [loading, setLoading] = useState(false);
+    const [data, setData] = useState<undefined | any>(undefined);
+    const [error, setError] = useState<undefined | any>(undefined);
+  */
 
   // useState를 사용해 state 상태 변수를 정의하며, 초기값으로 loading: false, data: undefined, error: undefined로 설정!
   // setState 함수는 상태를 업데이트하는 데 사용되는 것
