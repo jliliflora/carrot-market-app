@@ -16,6 +16,7 @@ async function handler(
     session: { user },
     body: { answer },
   } = req;
+  /* 사용 안함
   const post = await client.post.findUnique({
     where: {
       id: +id!,
@@ -23,7 +24,7 @@ async function handler(
     select: {
       id: true,
     },
-  });
+  });*/
 
   const newAnswer = await client.answer.create({
     data: {
