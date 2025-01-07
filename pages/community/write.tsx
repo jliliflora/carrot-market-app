@@ -16,6 +16,8 @@ interface WriteForm {
 interface WriteResponse {
   ok: boolean;
   post: Post;
+  latitude: number | null;
+  longitude: number | null;
 }
 
 const Write: NextPage = () => {
@@ -30,7 +32,21 @@ const Write: NextPage = () => {
   const onValid = (data: WriteForm) => {
     // console.log(data);
     if (loading) return; //data가 여러번 post 되지 않도록 리턴시키기
-    post({ ...data, latitude, longitude });
+    post({
+      ...data,
+      latitude,
+      longitude,
+      ok: true, // API 호출 후 성공 상태를 나타내는 값
+      post: {
+        id: 0, // 임시 id (후에 실제 값으로 바꿀 것)
+        question: data.question,
+        createdAt: new Date(), // 임시 createdAt (후에 실제 값으로 바꿀 것)
+        updatedAt: new Date(), // 임시 updatedAt (후에 실제 값으로 바꿀 것)
+        userId: 1, // 임시 userId (후에 실제 값으로 바꿀 것)
+        latitude: latitude ?? null,
+        longitude: longitude ?? null,
+      },
+    });
   };
 
   const router = useRouter();

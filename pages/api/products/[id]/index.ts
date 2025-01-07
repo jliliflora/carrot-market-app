@@ -33,7 +33,7 @@ async function handler(
   });
   // console.log(product);
 
-  const terms = product?.name.split(" ").map((word) => ({
+  const terms = product?.name.split(" ").map((word: string) => ({
     name: {
       contains: word,
     },

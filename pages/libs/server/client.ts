@@ -1,9 +1,11 @@
 import { PrismaClient } from "@prisma/client";
 
 // global안에 client가 없어서 타입선언해주는 코드
+/* 빌드 에러가 나서 global.d.ts 파일로 따로 빼둠
 declare global {
   var client: PrismaClient | undefined;
 }
+*/
 
 // 이 파일을 처음 실행하게 되면 client에는 아무것도 없어서 새 PrismaClient를 만들게 됨
 const client = global.client || new PrismaClient();
