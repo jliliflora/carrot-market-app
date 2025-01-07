@@ -10,7 +10,7 @@ const ChatDetail: NextPage = () => {
   // console.log(user);
 
   return (
-    <Layout canGoBack title="Steve">
+    <Layout canGoChats title="Steve">
       <div className="py-10 pb-16 px-4 space-y-4">
         <Message message="Hi how much are you selling them for?" />
         <Message message="I want ￦20,000" reversed />

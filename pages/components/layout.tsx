@@ -11,6 +11,7 @@ interface LayoutProps {
   canGoHome?: boolean;
   canGoPosts?: boolean;
   canGoStreams?: boolean;
+  canGoChats?: boolean;
 }
 export default function Layout({
   title,
@@ -20,6 +21,7 @@ export default function Layout({
   canGoHome,
   canGoPosts,
   canGoStreams,
+  canGoChats,
 }: LayoutProps) {
   const router = useRouter();
   const onClick = () => {
@@ -33,6 +35,9 @@ export default function Layout({
   };
   const onClickStreams = () => {
     router.replace("/streams");
+  };
+  const onClickChats = () => {
+    router.replace("/chats");
   };
 
   return (
@@ -116,10 +121,28 @@ export default function Layout({
             </svg>
           </button>
         ) : null}
+        {canGoChats ? (
+          <button onClick={onClickChats} className="absolute left-4">
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M15 19l-7-7 7-7"
+              ></path>
+            </svg>
+          </button>
+        ) : null}
         {title ? (
           <span
             className={cls(
-              canGoBack || canGoHome || canGoPosts || canGoStreams
+              canGoBack || canGoHome || canGoPosts || canGoStreams || canGoChats
                 ? "mx-auto"
                 : "",
               ""
