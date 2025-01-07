@@ -125,7 +125,7 @@ async function handler(
 
   /*이메일 인증 보내기 성공~! */
   if (email) {
-    /*const mailOptions = {
+    const mailOptions = {
       from: process.env.MAIL_ID,
       to: email,
       subject: "Nomad Carrot Authentication Email",
@@ -145,7 +145,7 @@ async function handler(
     );
 
     smtpTransport.close();
-    console.log(result);*/
+    console.log(result);
   }
 
   return res.json({
