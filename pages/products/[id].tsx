@@ -8,6 +8,7 @@ import { Product, User } from "@prisma/client";
 import useMutation from "../libs/client/useMutation";
 import { cls } from "../libs/client/utils";
 import useUser from "../libs/client/useUser";
+import { useEffect, useState } from "react";
 
 interface ProductWithUser extends Product {
   user: User;
@@ -25,7 +26,11 @@ const ItemDetail: NextPage = () => {
 
   const router = useRouter();
   // console.log(router.query);
-  const { id, imageUrl } = router.query;
+  const { id, imageUrl, from } = router.query;
+
+  // 뒤로가기 버튼 구별
+  const layoutProps =
+    from === "upload" ? { canGoHome: true } : { canGoBack: true };
 
   const { mutate } = useSWRConfig(); //unboundmutate 사용하려면 필요한 코드
   const { data, mutate: boundMutate } = useSWR<ItemDetailResponse>(
@@ -48,7 +53,7 @@ const ItemDetail: NextPage = () => {
   };
 
   return (
-    <Layout canGoHome>
+    <Layout {...layoutProps}>
       <div className="px-4 py-4">
         <div className="mb-8">
           {imageUrl ? (
@@ -58,9 +63,10 @@ const ItemDetail: NextPage = () => {
               className="h-96 bg-slate-300 mx-auto mb-4"
             />
           ) : (
-            <div className="h-96 mx-auto mb-5">
-              <img src="https://ossisconsult.com/includes/uploads/projects/default.jpg" />
-            </div>
+            <img
+              src="https://ossisconsult.com/includes/uploads/projects/default.jpg"
+              className="h-96 mx-auto mb-5"
+            />
           )}
 
           <div className="flex cursor-pointer py-3 border-t border-b items-center space-x-3">

@@ -38,7 +38,7 @@ const Upload: NextPage = () => {
   //data가 변경될때마다 실행시키고, data.ok가 참이면 product의 id로 redirect를 함
   useEffect(() => {
     if (data?.ok) {
-      router.push(`/products/${data.product.id}`);
+      router.push(`/products/${data.product.id}?from=upload`);
     }
   }, [data, router]);
 
