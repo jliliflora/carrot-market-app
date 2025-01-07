@@ -27,7 +27,8 @@ export default function useMutation<T>(url: string): UseMutationResult<T> {
     error: undefined,
   });
 
-  function mutaton(data: any) {
+  // (data: any) 에러남 => // 제네릭 T를 사용하여 data 타입을 유연하게 설정
+  function mutaton<T>(data: T) {
     // setLoading(true);
     setSate((prev) => ({ ...prev, loading: true }));
     fetch(url, {

@@ -20,7 +20,7 @@ const Streams: NextPage = () => {
   // console.log(user);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalCount, setTotalCount] = useState<Number>();
+  const [totalCount, setTotalCount] = useState<number>();
 
   const { data } = useSWR<StreamsResponse>(`/api/streams`);
   const { data: limitData } = useSWR<StreamsResponse>(
@@ -28,7 +28,8 @@ const Streams: NextPage = () => {
   );
 
   useEffect(() => {
-    setTotalCount(data?.streams?.length!);
+    // setTotalCount(data?.streams?.length!); => 옵셔널 체이닝 (?.)과 널이 아니라고 강제하는 단언 연산자 (!)를 동시에 사용하여 에러 발생
+    setTotalCount(data?.streams?.length ?? 0); // length가 undefined일 경우 0을 기본값으로 사용
   }, [data]);
 
   return (

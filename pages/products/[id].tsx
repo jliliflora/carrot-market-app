@@ -8,7 +8,7 @@ import { Product, User } from "@prisma/client";
 import useMutation from "../libs/client/useMutation";
 import { cls } from "../libs/client/utils";
 import useUser from "../libs/client/useUser";
-import { useEffect, useState } from "react";
+import Image from "next/image";
 
 interface ProductWithUser extends Product {
   user: User;
@@ -33,7 +33,7 @@ const ItemDetail: NextPage = () => {
   const layoutProps =
     from === "upload" ? { canGoHome: true } : { canGoBack: true };
 
-  const { mutate } = useSWRConfig(); //unboundmutate 사용하려면 필요한 코드
+  // const { mutate } = useSWRConfig(); //unboundmutate 사용하려면 필요한 코드
   const { data, mutate: boundMutate } = useSWR<ItemDetailResponse>(
     router.query.id ? `/api/products/${router.query.id}` : null
   );
@@ -58,14 +58,15 @@ const ItemDetail: NextPage = () => {
       <div className="px-4 py-4">
         <div className="mb-8">
           {imageUrl ? (
-            <img
+            <Image
               src={imageUrl as string}
               alt={`Product ${id}`}
               className="h-96 bg-slate-300 mx-auto mb-4"
             />
           ) : (
-            <img
+            <Image
               src="https://ossisconsult.com/includes/uploads/projects/default.jpg"
+              alt={`Product ${id}`}
               className="h-96 mx-auto mb-5"
             />
           )}

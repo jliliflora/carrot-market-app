@@ -13,15 +13,15 @@ export default function Forms() {
     handleSubmit,
     formState: { errors },
     watch,
-    setError,
-    setValue,
-    reset,
-    resetField,
+    // setError,
+    // setValue,
+    // reset,
+    // resetField,
   } = useForm<LoginForm>({
     mode: "onChange",
   });
   const onValid = (data: LoginForm) => {
-    console.log("im valid bby");
+    console.log("im valid bby", data);
   };
   const onInvalid = (errors: FieldErrors) => {
     console.log(errors);

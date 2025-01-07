@@ -7,7 +7,6 @@ import { Stream } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import useMutation from "../libs/client/useMutation";
 import useUser from "../libs/client/useUser";
-import { useEffect } from "react";
 
 interface StreamMessage {
   message: string;
@@ -20,14 +19,27 @@ interface StreamMessage {
 interface StreamWithMessages extends Stream {
   messages: StreamMessage[];
 }
-
 interface StreamResponse {
   ok: true;
   stream: StreamWithMessages;
 }
-
 interface MessageForm {
   message: string;
+}
+interface ChatStream {
+  id: number;
+  messages: {
+    id: number;
+    message: string;
+    user: {
+      id: number;
+      name: string;
+    };
+  }[];
+}
+
+interface ChatCache {
+  stream: ChatStream;
 }
 
 const StreamDetail: NextPage = () => {
@@ -44,6 +56,7 @@ const StreamDetail: NextPage = () => {
 
   const { register, handleSubmit, reset } = useForm<MessageForm>();
 
+  //   const [sendMessage, { loading, data: sendMessageData }] = useMutation => data: sendMessageData 이게 지금 사용을 안해서 일단 주석처리
   const [sendMessage, { loading, data: sendMessageData }] = useMutation(
     `/api/streams/${router.query.id}/messages`
   );

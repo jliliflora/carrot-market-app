@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import useMutation from "../libs/client/useMutation";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 interface EditProfileForm {
   email?: string;
@@ -43,7 +44,7 @@ const EditProfile: NextPage = () => {
     useMutation<EditProfileResponse>(`/api/users/me`);
 
   // 프로필 편집 로직
-  const onValid = ({ email, phone, name, avatar }: EditProfileForm) => {
+  const onValid = ({ email, phone, name }: EditProfileForm) => {
     // console.log({ email, phone, avatar });
     // return;
 
@@ -104,8 +105,9 @@ const EditProfile: NextPage = () => {
       <form onSubmit={handleSubmit(onValid)} className="py-10 px-4 space-y-4">
         <div className="flex items-center space-x-3">
           {avatarPreview ? (
-            <img
+            <Image
               src={avatarPreview}
+              alt={`${user?.name}`}
               className="w-14 h-14 rounded-full bg-slate-500"
             />
           ) : (
