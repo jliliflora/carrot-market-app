@@ -1,6 +1,5 @@
 //product: 해당 상품 정보 가져오기, relatedProducts: 관련 상품 정보 가져오기, terms: 해당 상품 이름 쪼개기
 
-import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiRequest, NextApiResponse } from "next";
 import client from "@/pages/libs/server/client";
 import withHandler, { ResponseType } from "@/pages/libs/server/withHandler";

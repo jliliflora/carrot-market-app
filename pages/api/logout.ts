@@ -1,6 +1,5 @@
 // 콘솔에서 이 해당 user의 id를 보는 것이 목표
 
-import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiRequest, NextApiResponse } from "next";
 import withHandler, { ResponseType } from "@/pages/libs/server/withHandler";
 import { withApiSession } from "@/pages/libs/server/withSesstion";

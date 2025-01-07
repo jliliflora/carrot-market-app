@@ -1,6 +1,5 @@
 // get : 유저의 관심목록 데이터 가져오기
 
-import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiRequest, NextApiResponse } from "next";
 import client from "../../../libs/server/client";
 import withHandler, { ResponseType } from "@/pages/libs/server/withHandler";

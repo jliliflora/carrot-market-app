@@ -1,6 +1,5 @@
 // get : 스트리밍 데이터 가져오기, post : 새 스트리밍 게시물 데이터 만들기
 
-import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiRequest, NextApiResponse } from "next";
 import withHandler, { ResponseType } from "@/pages/libs/server/withHandler";
 import { withApiSession } from "@/pages/libs/server/withSesstion";

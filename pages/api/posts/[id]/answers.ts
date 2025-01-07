@@ -1,6 +1,6 @@
 // post : 댓글(답글) 등록시키기
 
-import { withIronSessionApiRoute } from "iron-session/next";
+import {} from "iron-session/next";
 import { NextApiRequest, NextApiResponse } from "next";
 import client from "../../../libs/server/client";
 import withHandler, { ResponseType } from "@/pages/libs/server/withHandler";

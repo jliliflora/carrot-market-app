@@ -1,6 +1,5 @@
 // get : 유저 프로필 데이터 가져오기, post : 유저 프로필 정보 편집하기
 
-import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiRequest, NextApiResponse } from "next";
 import client from "../../../libs/server/client";
 import withHandler, { ResponseType } from "@/pages/libs/server/withHandler";
@@ -118,7 +117,7 @@ export default withApiSession(
   })
 );
 /*
-export default withIronSessionApiRoute(withHandler("GET", handler), {
+export default (withHandler("GET", handler), {
   cookieName: "carrotsession",
   password:
     "9845904809485098594385093840598df;slkgjfdl;gkfsdjg;ldfksjgdsflgjdfklgjdflgjflkgjdgd", //쿠키를 암호화하는데에 쓰임
