@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import Layout from "../components/layout";
 import Message from "../components/message";
 import useUser from "../libs/client/useUser";
+import DemoAlert from "../components/demoalert";
 
 const ChatDetail: NextPage = () => {
   //로그인이 안됐을때 enter로 redirect
@@ -28,6 +29,8 @@ const ChatDetail: NextPage = () => {
             </div>
           </div>
         </form>
+
+        <DemoAlert />
 
         {/* <div className="fixed py-2 bg-white  bottom-0 inset-x-0">
           <div className="flex relative max-w-md items-center  w-full mx-auto">

@@ -97,7 +97,12 @@ const StreamDetail: NextPage = () => {
           </span>
           <p className=" my-6 text-gray-700">{data?.stream?.description}</p>
         </div>
-        <div>
+        <div className="relative">
+          <p className="absolute top-[-1.3rem] right-[0rem] bg-orange-200 bg-opacity-60 border border-orange-300 rounded-xl px-[0.4rem] py-[0.35rem] w-[310px] text-center text-orange-500 text-[0.8rem]">
+            채팅 기능이 활성화되었습니다!
+            <br /> 실시간은 아니지만, 흥미로운 반응을 기다리고있어요 😆
+          </p>
+
           <h2 className="text-2xl font-bold text-gray-900">Live Chat</h2>
           <div className="py-10 pb-16 h-[50vh] overflow-y-scroll  px-4 space-y-4">
             {data?.stream.messages.map((message) => (
