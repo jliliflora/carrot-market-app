@@ -33,9 +33,10 @@ interface AnswerForm {
   //   formErrors?: string;
   description?: { message: string };
 }
+// 오류떠서 추가한 코드임
 interface AnswerData {
   ok: boolean;
-  // 필요한 다른 필드 추가
+  // 필요시 다른 필드 추가
 }
 
 const CommunityPostDetail: NextPage = () => {
@@ -93,12 +94,18 @@ const CommunityPostDetail: NextPage = () => {
     formState: { errors },
     clearErrors,
   } = useForm<AnswerForm>();
+
   const onValid = (form: AnswerForm) => {
     // console.log(form);
     //submit버튼을 눌러서 answer을 제출할때, answerLoading이 로딩중이라면 함수 종료 시키기
     if (answerLoading) return;
+
+    // 'ok'를 추가하여 'AnswerData' 타입으로 변환
+    const answerData: AnswerData = { ...form, ok: true };
+
     //로딩중이 아니라면, form을 담아서 sendAnswer함수 실행
-    sendAnswer(form);
+    //sendAnswer(form);
+    sendAnswer(answerData);
   };
 
   // answerData가 존재하고 동시에 answerData.ok응답을 받았으면 form을 비울거임
@@ -108,7 +115,7 @@ const CommunityPostDetail: NextPage = () => {
       //mutate로 refetch해서 새로 등록된 댓글이 바로 화면에 보이도록 함
       mutate();
     }
-  }, [answerData, reset]);
+  }, [answerData, reset, mutate]);
 
   const checkLength = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;

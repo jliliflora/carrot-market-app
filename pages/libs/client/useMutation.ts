@@ -8,10 +8,10 @@ interface UseMutationState<T> {
   data?: T;
   error?: object;
 }
-// UseMutationResult의 data 타입을 T로 변경 => T는 useMutation 함수의 제네릭 타입으로, 데이터의 타입을 지정하는 역할을 하는데, T는 useMutation 함수에서 호출 시 명시된 타입에 따라 결정된다
+// UseMutationResult의 data 타입을 any에서 T로 변경 => T는 useMutation 함수의 제네릭 타입으로, 데이터의 타입을 지정하는 역할을 하는데, T는 useMutation 함수에서 호출 시 명시된 타입에 따라 결정된다
 type UseMutationResult<T> = [(data: T) => void, UseMutationState<T>];
 
-// useMutation 함수의 제네릭 타입 T를 사용하여 반환값에 타입을 명확하게 지정
+// useMutation<T = any>에서 오류 발생, useMutation<T>로 변경! useMutation 함수의 제네릭 타입 T를 사용하여 반환값에 타입을 명확하게 지정
 export default function useMutation<T>(url: string): UseMutationResult<T> {
   /*
     const [loading, setLoading] = useState(false);
@@ -21,16 +21,16 @@ export default function useMutation<T>(url: string): UseMutationResult<T> {
 
   // useState를 사용해 state 상태 변수를 정의하며, 초기값으로 loading: false, data: undefined, error: undefined로 설정!
   // setState 함수는 상태를 업데이트하는 데 사용되는 것
-  const [state, setSate] = useState<UseMutationState<T>>({
+  const [state, setState] = useState<UseMutationState<T>>({
     loading: false,
     data: undefined,
     error: undefined,
   });
 
   // (data: any) 에러남 => // 제네릭 T를 사용하여 data 타입을 유연하게 설정
-  function mutaton<T>(data: T) {
+  function mutaton(data: T) {
     // setLoading(true);
-    setSate((prev) => ({ ...prev, loading: true }));
+    setState((prev) => ({ ...prev, loading: true }));
     fetch(url, {
       method: "POST",
       headers: {
@@ -38,16 +38,25 @@ export default function useMutation<T>(url: string): UseMutationResult<T> {
       }, //req.body.email을 받기 위해서 설정해주는 것
       body: JSON.stringify(data),
     })
-      .then((response) => response.json().catch(() => {}))
+      /*
+      .then(async (response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+    */
+      .then((response) => response.json().catch(() => {})) // 챗지피티가 위에 걸로 고쳐보래;
       // .then(setData)
-      .then((data) => setSate((prev) => ({ ...prev, data })))
+      .then((data) => setState((prev) => ({ ...prev, data })))
       // .catch(setError)
-      .catch((error) => setSate((prev) => ({ ...prev, error })))
+      .catch((error) => setState((prev) => ({ ...prev, error })))
       // .finally(() => setLoading(false));
-      .finally(() => setSate((prev) => ({ ...prev, loading: false })));
+      .finally(() => setState((prev) => ({ ...prev, loading: false })));
   }
   // return [mutaton, { loading, data, error }];
-  return [mutaton, { ...state }];
+  return [mutaton, { ...state }]; //이게 얕은복사 방식이라 객체보호하기 좋은 방법
+  // return [mutaton, state]; 챗지피티가 이거 추천함...
 }
 
 // prev의 역할
