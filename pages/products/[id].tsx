@@ -63,7 +63,8 @@ const ItemDetail: NextPage = () => {
               alt={`Product ${id}`}
               width={544}
               height={384}
-              className="w-full h-96 bg-slate-300 mx-auto mb-4"
+              layout="intrinsic"
+              className="w-96 h-96 bg-slate-300 mx-auto mb-4"
             />
           ) : (
             <Image
@@ -71,7 +72,8 @@ const ItemDetail: NextPage = () => {
               alt={`Product ${id}`}
               width={544}
               height={384}
-              className="h-96 mx-auto mb-5"
+              layout="responsive"
+              className="w-96 h-96 mx-auto mb-5"
             />
           )}
 

@@ -26,11 +26,13 @@ const Upload: NextPage = () => {
   // console.log(user);
 
   const { register, handleSubmit } = useForm<UploadProductForm>();
+
   const [uploadProduct, { loading, data }] =
     useMutation<UploadProductMutation>("/api/products");
+
   const onValid = (data: UploadProductForm) => {
     if (loading) return;
-    uploadProduct(data);
+    uploadProduct(data); //현재 코드에서 문제가 발생하는 이유는 UploadProductForm이 UploadProductMutation의 구조와 일치하지 않기 때문, 그러나 코드가 작동하는 이유는 타입 추론이 자동으로 처리되고 있음
     // console.log(data);
   };
 

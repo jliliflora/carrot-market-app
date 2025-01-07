@@ -33,6 +33,10 @@ interface AnswerForm {
   //   formErrors?: string;
   description?: { message: string };
 }
+interface AnswerData {
+  ok: boolean;
+  // 필요한 다른 필드 추가
+}
 
 const CommunityPostDetail: NextPage = () => {
   //로그인이 안됐을때 enter로 redirect
@@ -79,7 +83,7 @@ const CommunityPostDetail: NextPage = () => {
   // 답변창(댓글창) 로직
   // question에 answer을 보내기 위한 코드
   const [sendAnswer, { data: answerData, loading: answerLoading }] =
-    useMutation(`/api/posts/${router.query.id}/answers`);
+    useMutation<AnswerData>(`/api/posts/${router.query.id}/answers`);
 
   const {
     register,

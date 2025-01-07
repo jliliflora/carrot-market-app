@@ -72,7 +72,7 @@ export default function ProductList({ kind }: ProductListProps) {
           title={record.product.name}
           price={record.product.price}
           hearts={record.product._count.favs}
-          imageUrl="https://ossisconsult.com/includes/uploads/projects/default.jpg"
+          imageUrl="/images/default.jpg"
         />
       ))}
     </>
