@@ -14,11 +14,25 @@ interface StreamMessage {
   user: {
     avatar?: string;
     id: number;
+    // id: number; // `string`에서 `number`로 변경
+    // name: string;
+    // avatar?: string | null;
+    // phone?: string | null;
+    // email?: string;
+    // createdAt?: Date;
+    // updatedAt?: Date;
   };
 }
 interface StreamWithMessages extends Stream {
   messages: StreamMessage[];
 }
+// interface StreamWithMessages {
+//   id: string;
+//   name: string;
+//   createdAt: Date;
+//   updatedAt: Date;
+//   messages: StreamMessage[];
+// }
 interface StreamResponse {
   ok: true;
   stream: StreamWithMessages;
@@ -26,22 +40,41 @@ interface StreamResponse {
 interface MessageForm {
   message: string;
 }
-/*
-interface ChatStream {
+
+// any 타입 오류 처리
+// interface ChatUser {
+//   id: string;
+//   name: string;
+// }
+interface ChatMessage {
   id: number;
-  messages: {
+  message: string;
+  user: {
+    avatar?: string;
     id: number;
-    message: string;
-    user: {
-      id: number;
-      name: string;
-    };
-  }[];
+    // id: number; // `string`에서 `number`로 변경
+    // name: string;
+    // avatar?: string | null;
+    // phone?: string | null;
+    // email?: string;
+    // createdAt?: Date;
+    // updatedAt?: Date;
+  };
 }
+interface ChatLog extends Stream {
+  messages: ChatMessage[];
+}
+// interface ChatLog {
+//   id: string;
+//   name: string;
+//   createdAt: Date;
+//   updatedAt: Date;
+//   messages: ChatMessage[];
+// }
 interface ChatCache {
-  stream: ChatStream;
+  ok: boolean; // ok 필드 추가
+  stream: ChatLog;
 }
-  */
 
 const StreamDetail: NextPage = () => {
   // 유저 본인이 보낸 메세지인지 id 확인을 위해 가져온거 + 이 코드를 통해 로그인 필터링까지 해줌
@@ -66,6 +99,32 @@ const StreamDetail: NextPage = () => {
     reset();
     //nextJS 서버리스 환경에선 실시간기능을 사용할 수 없음 => 그래서 그냥 화면에만 올라가도록 가짜실시간기능을 추가한 것 / 사용자에게 최대한 많은 실시간 경험을 제공하기 위한 코드
     mutate(
+      (prev: ChatCache | undefined) => {
+        if (!prev) return undefined;
+
+        const updatedStream: StreamResponse = {
+          ok: true,
+          stream: {
+            ...prev.stream, // 이전 상태를 그대로 가져옴
+            messages: [
+              ...prev.stream.messages,
+              {
+                id: Date.now(),
+                message: form.message,
+                user: {
+                  id: user!.id, // 필요한 값만 넣음
+                  avatar: user!.avatar ?? undefined, // avatar만 넣음
+                },
+              },
+            ],
+          },
+        };
+
+        return updatedStream;
+      },
+      false
+
+      /* any타입 사용으로 인해 에러 생김
       (prev) =>
         prev &&
         ({
@@ -85,6 +144,7 @@ const StreamDetail: NextPage = () => {
           },
         } as any),
       false
+      */
     ); //mutate는 캐시에 가짜 데이터를 넣을 수 있게 해주지만, 그 즉시 백엔드에서 이중확인함 그래서 그렇게하지않도록 false를 해둔것
     sendMessage(form); //백엔드로 post 요청을 보내는 함수
   };
