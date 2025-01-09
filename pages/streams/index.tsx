@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Layout from "../components/layout";
-import FloatingButton from "../components/floating-button";
+// import FloatingButton from "../components/floating-button";
 import Link from "next/link";
 import { Stream } from "@prisma/client";
 import useSWR from "swr";
@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import Pagination from "../components/pagination";
 import useUser from "../../src/libs/client/useUser";
 import DemoAlert from "../components/demoalert";
+import dynamic from "next/dynamic";
 
 interface StreamsResponse {
   ok: boolean;
@@ -31,6 +32,13 @@ const Streams: NextPage = () => {
     // setTotalCount(data?.streams?.length!); => 옵셔널 체이닝 (?.)과 널이 아니라고 강제하는 단언 연산자 (!)를 동시에 사용하여 에러 발생
     setTotalCount(data?.streams?.length ?? 0); // length가 undefined일 경우 0을 기본값으로 사용
   }, [data]);
+
+  const FloatingButton = dynamic(
+    () => import("../components/floating-button"),
+    {
+      ssr: false, // 서버 사이드 렌더링을 하지 않도록 설정
+    }
+  );
 
   return (
     <Layout hasTabBar title="라이브">

@@ -10,7 +10,7 @@ if (!process.env.MAIL_ID || !process.env.MAIL_PASSWORD) {
 const auth =
   process.env.MAIL_ID && process.env.MAIL_PASSWORD
     ? { user: process.env.MAIL_ID, pass: process.env.MAIL_PASSWORD }
-    : null; // auth가 없을 때 null로 설정
+    : {}; // auth가 없을 때 null로 설정
 
 // auth가 null일 경우 예외를 던짐
 if (!auth) {

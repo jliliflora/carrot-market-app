@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Layout from "../components/layout";
-import FloatingButton from "../components/floating-button";
+// import FloatingButton from "../components/floating-button";
 import Link from "next/link";
 import useSWR from "swr";
 import { Post, User } from "@prisma/client";
@@ -9,6 +9,7 @@ import useCoords from "../../src/libs/client/useCoords";
 import { useEffect, useState } from "react";
 import Pagination from "../components/pagination";
 import useUser from "../../src/libs/client/useUser";
+import dynamic from "next/dynamic";
 
 interface PostWithUser extends Post {
   user: User;
@@ -52,6 +53,13 @@ const Community: NextPage = () => {
   useEffect(() => {
     setTotalCount(data?.posts?.length ?? 0); // length가 undefined일 경우 0을 기본값으로 사용
   }, [data]);
+
+  const FloatingButton = dynamic(
+    () => import("../components/floating-button"),
+    {
+      ssr: false, // 서버 사이드 렌더링을 하지 않도록 설정
+    }
+  );
 
   return (
     <Layout hasTabBar title="동네생활">
