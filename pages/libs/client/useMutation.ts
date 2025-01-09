@@ -9,10 +9,13 @@ interface UseMutationState<T> {
   error?: object;
 }
 // UseMutationResult의 data 타입을 any에서 T로 변경 => T는 useMutation 함수의 제네릭 타입으로, 데이터의 타입을 지정하는 역할을 하는데, T는 useMutation 함수에서 호출 시 명시된 타입에 따라 결정된다
-type UseMutationResult<T> = [(data: T) => void, UseMutationState<T>];
+// type UseMutationResult<T> = [(data: T) => void, UseMutationState<T>]; => 코드 변경으로 UseMutationResult타입은 사용하지 않으므로 주석처리
 
 // useMutation<T = any>에서 오류 발생, useMutation<T>로 변경! useMutation 함수의 제네릭 타입 T를 사용하여 반환값에 타입을 명확하게 지정
-export default function useMutation<T>(url: string): UseMutationResult<T> {
+// export default function useMutation<T>(url: string): UseMutationResult<T> {
+export default function useMutation<RequestData, ResponseData>(
+  url: string
+): [(data: RequestData) => void, UseMutationState<ResponseData>] {
   /*
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState<undefined | any>(undefined);
@@ -21,14 +24,14 @@ export default function useMutation<T>(url: string): UseMutationResult<T> {
 
   // useState를 사용해 state 상태 변수를 정의하며, 초기값으로 loading: false, data: undefined, error: undefined로 설정!
   // setState 함수는 상태를 업데이트하는 데 사용되는 것
-  const [state, setState] = useState<UseMutationState<T>>({
+  const [state, setState] = useState<UseMutationState<ResponseData>>({
     loading: false,
     data: undefined,
     error: undefined,
   });
 
   // (data: any) 에러남 => // 제네릭 T를 사용하여 data 타입을 유연하게 설정
-  function mutaton(data: T) {
+  function mutaton(data: RequestData) {
     // setLoading(true);
     setState((prev) => ({ ...prev, loading: true }));
     fetch(url, {
@@ -38,15 +41,15 @@ export default function useMutation<T>(url: string): UseMutationResult<T> {
       }, //req.body.email을 받기 위해서 설정해주는 것
       body: JSON.stringify(data),
     })
-      /*
-      .then(async (response) => {
+      .then((response) => {
         if (!response.ok) {
+          // 서버 응답 상태 확인 추가
           throw new Error("Network response was not ok");
         }
-        return response.json();
+        return response.json() as Promise<ResponseData>; // fetch 결과를 ResponseData 타입으로 강제 변환
       })
-    */
-      .then((response) => response.json().catch(() => {})) // 챗지피티가 위에 걸로 고쳐보래;
+
+      // .then((response) => response.json().catch(() => {})) // 챗지피티가 위에 걸로 고쳐보래;
       // .then(setData)
       .then((data) => setState((prev) => ({ ...prev, data })))
       // .catch(setError)

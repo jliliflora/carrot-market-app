@@ -19,6 +19,11 @@ interface WriteResponse {
   latitude: number | null;
   longitude: number | null;
 }
+interface WriteRequest {
+  question: string;
+  latitude: number | null;
+  longitude: number | null;
+}
 
 const Write: NextPage = () => {
   //로그인이 안됐을때 enter로 redirect
@@ -28,10 +33,15 @@ const Write: NextPage = () => {
   //위치 받는 hook
   const { latitude, longitude } = useCoords();
   const { register, handleSubmit } = useForm<WriteForm>();
-  const [post, { loading, data }] = useMutation<WriteResponse>("/api/posts");
+  const [post, { loading, data }] = useMutation<WriteRequest, WriteResponse>(
+    "/api/posts"
+  );
   const onValid = (data: WriteForm) => {
     // console.log(data);
     if (loading) return; //data가 여러번 post 되지 않도록 리턴시키기
+    post({ ...data, latitude, longitude });
+
+    /*
     post({
       ...data,
       latitude,
@@ -47,6 +57,7 @@ const Write: NextPage = () => {
         longitude: longitude ?? null,
       },
     });
+    */
   };
 
   const router = useRouter();

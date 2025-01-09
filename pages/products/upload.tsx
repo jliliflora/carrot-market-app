@@ -27,8 +27,10 @@ const Upload: NextPage = () => {
 
   const { register, handleSubmit } = useForm<UploadProductForm>();
 
-  const [uploadProduct, { loading, data }] =
-    useMutation<UploadProductMutation>("/api/products");
+  const [uploadProduct, { loading, data }] = useMutation<
+    UploadProductForm,
+    UploadProductMutation
+  >("/api/products");
 
   const onValid = (data: UploadProductForm) => {
     if (loading) return;

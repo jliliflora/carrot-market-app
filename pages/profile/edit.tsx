@@ -40,8 +40,10 @@ const EditProfile: NextPage = () => {
   }, [user, setValue]);
 
   // POST요청하기
-  const [editProfile, { data, loading }] =
-    useMutation<EditProfileResponse>(`/api/users/me`);
+  const [editProfile, { data, loading }] = useMutation<
+    EditProfileForm,
+    EditProfileResponse
+  >(`/api/users/me`);
 
   // 프로필 편집 로직
   const onValid = ({ email, phone, name }: EditProfileForm) => {

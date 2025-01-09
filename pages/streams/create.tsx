@@ -26,11 +26,13 @@ const Create: NextPage = () => {
   // console.log(user);
 
   const router = useRouter();
-  const [createStream, { loading, data }] =
-    useMutation<CreateResponse>(`/api/streams`);
+  const [createStream, { loading, data }] = useMutation<
+    CreateForm,
+    CreateResponse
+  >(`/api/streams`);
   const { register, handleSubmit } = useForm<CreateForm>();
   const onValid = (form: CreateForm) => {
-    console.log(form);
+    // console.log(form);
     if (loading) return;
     createStream(form);
   };
