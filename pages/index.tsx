@@ -8,6 +8,30 @@ import useSWR from "swr";
 import { Product } from "@prisma/client";
 import { useEffect, useState } from "react";
 import Pagination from "./components/pagination";
+import { GetServerSideProps } from "next";
+
+interface HomePageProps {
+  mailId: string;
+  mailPassword: string;
+}
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  // 환경 변수 가져오기
+  const mailId = process.env.MAIL_ID || "";
+  const mailPassword = process.env.MAIL_PASSWORD || "";
+
+  if (!mailId || !mailPassword) {
+    throw new Error("MAIL_ID and MAIL_PASSWORD must be defined");
+  }
+
+  // 페이지에 전달할 props
+  return {
+    props: {
+      mailId,
+      mailPassword,
+    },
+  };
+};
 
 /* 사용안해서 주석처리
 const geistSans = localFont({
@@ -34,7 +58,11 @@ interface ProductsResponse {
   products: ProductWithCount[];
 }
 
-export default function Home() {
+export default function Home({ mailId, mailPassword }: HomePageProps) {
+  // 페이지에서 받은 props 사용
+  console.log("Mail ID:", mailId);
+  console.log("Mail Password:", mailPassword);
+
   const {} = useUser(); //페이지에 데이터를 전달해주는 훅
   // console.log(user, isLoading);
 
