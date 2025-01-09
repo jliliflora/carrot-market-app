@@ -2,10 +2,10 @@ import type { NextPage } from "next";
 import Layout from "../components/layout";
 import Input from "../components/input";
 import Button from "../components/button";
-import useUser from "../libs/client/useUser";
+import useUser from "../../src/libs/client/useUser";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import useMutation from "../libs/client/useMutation";
+import useMutation from "../../src/libs/client/useMutation";
 import { useRouter } from "next/router";
 import Image from "next/image";
 

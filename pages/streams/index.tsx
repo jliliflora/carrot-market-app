@@ -6,7 +6,7 @@ import { Stream } from "@prisma/client";
 import useSWR from "swr";
 import { useEffect, useState } from "react";
 import Pagination from "../components/pagination";
-import useUser from "../libs/client/useUser";
+import useUser from "../../src/libs/client/useUser";
 import DemoAlert from "../components/demoalert";
 
 interface StreamsResponse {

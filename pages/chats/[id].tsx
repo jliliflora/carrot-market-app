@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Layout from "../components/layout";
 import Message from "../components/message";
-import useUser from "../libs/client/useUser";
+import useUser from "../../src/libs/client/useUser";
 import DemoAlert from "../components/demoalert";
 
 const ChatDetail: NextPage = () => {

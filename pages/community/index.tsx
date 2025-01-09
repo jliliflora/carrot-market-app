@@ -5,10 +5,10 @@ import Link from "next/link";
 import useSWR from "swr";
 import { Post, User } from "@prisma/client";
 import { format } from "date-fns";
-import useCoords from "../libs/client/useCoords";
+import useCoords from "../../src/libs/client/useCoords";
 import { useEffect, useState } from "react";
 import Pagination from "../components/pagination";
-import useUser from "../libs/client/useUser";
+import useUser from "../../src/libs/client/useUser";
 
 interface PostWithUser extends Post {
   user: User;

@@ -5,9 +5,9 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import Link from "next/link";
 import { Product, User } from "@prisma/client";
-import useMutation from "../libs/client/useMutation";
-import { cls } from "../libs/client/utils";
-import useUser from "../libs/client/useUser";
+import useMutation from "../../src/libs/client/useMutation";
+import { cls } from "../../src/libs/client/utils";
+import useUser from "../../src/libs/client/useUser";
 import Image from "next/image";
 
 interface ProductWithUser extends Product {

@@ -2,7 +2,7 @@
 import Layout from "./components/layout";
 import FloatingButton from "./components/floating-button";
 import Item from "./components/item";
-import useUser from "./libs/client/useUser";
+import useUser from "../src/libs/client/useUser";
 import Head from "next/head";
 import useSWR from "swr";
 import { Product } from "@prisma/client";

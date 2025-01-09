@@ -5,10 +5,10 @@ import TextArea from "../components/textarea";
 import Button from "../components/button";
 import { Stream } from "@prisma/client";
 import { useForm } from "react-hook-form";
-import useMutation from "../libs/client/useMutation";
+import useMutation from "../../src/libs/client/useMutation";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import useUser from "../libs/client/useUser";
+import useUser from "../../src/libs/client/useUser";
 
 interface CreateForm {
   name: string;

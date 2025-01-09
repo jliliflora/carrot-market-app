@@ -5,12 +5,12 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import Link from "next/link";
 import { Answer, Post, User } from "@prisma/client";
-import useMutation from "../libs/client/useMutation";
-import { cls } from "../libs/client/utils";
+import useMutation from "../../src/libs/client/useMutation";
+import { cls } from "../../src/libs/client/utils";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { format } from "date-fns";
-import useUser from "../libs/client/useUser";
+import useUser from "../../src/libs/client/useUser";
 
 interface AnswerWithUser extends Answer {
   user: User;

@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Layout from "../components/layout";
 import ProductList from "../components/product-list";
-import useUser from "../libs/client/useUser";
+import useUser from "../../src/libs/client/useUser";
 
 const Bought: NextPage = () => {
   //로그인이 안됐을때 enter로 redirect

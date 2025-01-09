@@ -1,11 +1,11 @@
 import type { NextPage } from "next";
 import Layout from "../components/layout";
 import Link from "next/link";
-import useUser from "../libs/client/useUser";
+import useUser from "../../src/libs/client/useUser";
 import useSWR from "swr";
 import { Review, User } from "@prisma/client";
-import { cls } from "../libs/client/utils";
-import useMutation from "../libs/client/useMutation";
+import { cls } from "../../src/libs/client/utils";
+import useMutation from "../../src/libs/client/useMutation";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 

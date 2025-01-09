@@ -1,8 +1,8 @@
 // import twilio from "twilio";
 import { NextApiRequest, NextApiResponse } from "next";
-import client from "../../libs/server/client";
-import withHandler, { ResponseType } from "@/pages/libs/server/withHandler";
-import smtpTransport from "@/pages/libs/server/email";
+import client from "../../../src/libs/server/client";
+import withHandler, { ResponseType } from "@/src/libs/server/withHandler";
+import smtpTransport from "@/pages/api/email";
 import { SentMessageInfo } from "nodemailer";
 
 // const twilioClient = twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN); 사용안함

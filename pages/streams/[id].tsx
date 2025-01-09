@@ -5,8 +5,8 @@ import useSWR from "swr";
 import { useRouter } from "next/router";
 import { Stream } from "@prisma/client";
 import { useForm } from "react-hook-form";
-import useMutation from "../libs/client/useMutation";
-import useUser from "../libs/client/useUser";
+import useMutation from "../../src/libs/client/useMutation";
+import useUser from "../../src/libs/client/useUser";
 
 interface StreamMessage {
   message: string;

@@ -1,9 +1,9 @@
 // get : 유저의 관심목록 데이터 가져오기
 
 import { NextApiRequest, NextApiResponse } from "next";
-import client from "../../../libs/server/client";
-import withHandler, { ResponseType } from "@/pages/libs/server/withHandler";
-import { withApiSession } from "@/pages/libs/server/withSesstion";
+import client from "../../../../src/libs/server/client";
+import withHandler, { ResponseType } from "@/src/libs/server/withHandler";
+import { withApiSession } from "@/src/libs/server/withSesstion";
 
 async function handler(
   req: NextApiRequest,

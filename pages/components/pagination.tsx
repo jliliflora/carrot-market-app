@@ -1,4 +1,4 @@
-import { cls } from "../libs/client/utils";
+import { cls } from "../../src/libs/client/utils";
 import React from "react";
 
 interface PaginationProps {

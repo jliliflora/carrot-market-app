@@ -1,10 +1,10 @@
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
-import { cls } from "./libs/client/utils";
+import { cls } from "../src/libs/client/utils";
 import Input from "./components/input";
 import Button from "./components/button";
 import { useForm } from "react-hook-form";
-import useMutation from "./libs/client/useMutation";
+import useMutation from "../src/libs/client/useMutation";
 import { useRouter } from "next/router";
 
 interface EnterForm {

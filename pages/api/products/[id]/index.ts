@@ -1,9 +1,9 @@
 //product: 해당 상품 정보 가져오기, relatedProducts: 관련 상품 정보 가져오기, terms: 해당 상품 이름 쪼개기
 
 import { NextApiRequest, NextApiResponse } from "next";
-import client from "@/pages/libs/server/client";
-import withHandler, { ResponseType } from "@/pages/libs/server/withHandler";
-import { withApiSession } from "@/pages/libs/server/withSesstion";
+import client from "@/src/libs/server/client";
+import withHandler, { ResponseType } from "@/src/libs/server/withHandler";
+import { withApiSession } from "@/src/libs/server/withSesstion";
 
 async function handler(
   req: NextApiRequest,

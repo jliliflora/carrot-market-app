@@ -3,12 +3,12 @@ import Layout from "../components/layout";
 import TextArea from "../components/textarea";
 import Button from "../components/button";
 import { useForm } from "react-hook-form";
-import useMutation from "../libs/client/useMutation";
+import useMutation from "../../src/libs/client/useMutation";
 import { Post } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import useCoords from "../libs/client/useCoords";
-import useUser from "../libs/client/useUser";
+import useCoords from "../../src/libs/client/useCoords";
+import useUser from "../../src/libs/client/useUser";
 
 interface WriteForm {
   question: string;
