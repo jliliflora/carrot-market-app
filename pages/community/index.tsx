@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import Layout from "../components/layout";
-// import FloatingButton from "../components/floating-button";
 import Link from "next/link";
 import useSWR from "swr";
 import { Post, User } from "@prisma/client";
@@ -9,7 +8,6 @@ import useCoords from "../../src/libs/client/useCoords";
 import { useEffect, useState } from "react";
 import Pagination from "../components/pagination";
 import useUser from "../../src/libs/client/useUser";
-// import dynamic from "next/dynamic";
 
 interface PostWithUser extends Post {
   user: User;
@@ -54,13 +52,6 @@ const Community: NextPage = () => {
     setTotalCount(data?.posts?.length ?? 0); // length가 undefined일 경우 0을 기본값으로 사용
   }, [data]);
 
-  // const FloatingButton = dynamic(
-  //   () => import("../components/floating-button"),
-  //   {
-  //     ssr: false, // 서버 사이드 렌더링을 하지 않도록 설정
-  //   }
-  // );
-
   return (
     <Layout hasTabBar title="동네생활">
       {Loading ? (
@@ -69,22 +60,6 @@ const Community: NextPage = () => {
         <div className="pt-12 text-center">
           아직 아무도 소식을 남기지 않았어요. <br /> 첫 번째 소식을 들려주시면
           모두가 기다릴 거예요! 😊
-          {/* <FloatingButton href="/community/write">
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-              ></path>
-            </svg>
-          </FloatingButton> */}
           <div className="fixed hover:bg-orange-500 border-0 aspect-square border-transparent transition-colors cursor-pointer  bottom-24 right-5 shadow-xl bg-orange-400 rounded-full w-14 flex items-center justify-center text-white">
             <Link href="/community/write">
               <svg
@@ -219,24 +194,6 @@ const Community: NextPage = () => {
             </div>
           </div>
         ))} */}
-
-          {/* <button className="fixed hover:bg-orange-500 transition-colors cursor-pointer  bottom-24 right-5 shadow-xl bg-orange-400 rounded-full p-4 text-white"> */}
-          {/* <FloatingButton href="/community/write">
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-              ></path>
-            </svg>
-          </FloatingButton> */}
           <div className="fixed hover:bg-orange-500 border-0 aspect-square border-transparent transition-colors cursor-pointer  bottom-24 right-5 shadow-xl bg-orange-400 rounded-full w-14 flex items-center justify-center text-white">
             <Link href="/community/write">
               <svg

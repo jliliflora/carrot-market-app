@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import Layout from "../components/layout";
-// import FloatingButton from "../components/floating-button";
 import Link from "next/link";
 import { Stream } from "@prisma/client";
 import useSWR from "swr";
@@ -8,7 +7,6 @@ import { useEffect, useState } from "react";
 import Pagination from "../components/pagination";
 import useUser from "../../src/libs/client/useUser";
 import DemoAlert from "../components/demoalert";
-// import dynamic from "next/dynamic";
 
 interface StreamsResponse {
   ok: boolean;
@@ -32,13 +30,6 @@ const Streams: NextPage = () => {
     // setTotalCount(data?.streams?.length!); => 옵셔널 체이닝 (?.)과 널이 아니라고 강제하는 단언 연산자 (!)를 동시에 사용하여 에러 발생
     setTotalCount(data?.streams?.length ?? 0); // length가 undefined일 경우 0을 기본값으로 사용
   }, [data]);
-
-  // const FloatingButton = dynamic(
-  //   () => import("../components/floating-button"),
-  //   {
-  //     ssr: false, // 서버 사이드 렌더링을 하지 않도록 설정
-  //   }
-  // );
 
   return (
     <Layout hasTabBar title="라이브">
@@ -71,23 +62,6 @@ const Streams: NextPage = () => {
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />
-
-        {/* <FloatingButton href="/streams/create">
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
-            ></path>
-          </svg>
-        </FloatingButton> */}
         <div className="fixed hover:bg-orange-500 border-0 aspect-square border-transparent transition-colors cursor-pointer  bottom-24 right-5 shadow-xl bg-orange-400 rounded-full w-14 flex items-center justify-center text-white">
           <Link href="/streams/create">
             <svg
