@@ -28,8 +28,10 @@ const Profile: NextPage = () => {
   const { data } = useSWR<ReviewsResponse>(`/api/reviews`);
 
   // 로그아웃
-  const [logout, { loading, data: logoutData }] =
-    useMutation<MutationResult>("/api/logout");
+  const [logout, { loading, data: logoutData }] = useMutation<
+    Record<string, never>,
+    MutationResult
+  >("/api/logout"); //요청 시 전송할 데이터의 타입. 로그아웃 요청은 데이터를 전송하지 않으므로 빈 객체 타입 {}로 지정
 
   const handleLogout = () => {
     if (loading) return;

@@ -34,9 +34,14 @@ interface AnswerForm {
   description?: { message: string };
 }
 // 오류떠서 추가한 코드임
-interface AnswerData {
+// interface AnswerData {
+//   ok: boolean;
+//   // 필요시 다른 필드 추가
+// }
+
+interface AnswerResponse {
   ok: boolean;
-  // 필요시 다른 필드 추가
+  response: Answer;
 }
 
 const CommunityPostDetail: NextPage = () => {
@@ -84,7 +89,9 @@ const CommunityPostDetail: NextPage = () => {
   // 답변창(댓글창) 로직
   // question에 answer을 보내기 위한 코드
   const [sendAnswer, { data: answerData, loading: answerLoading }] =
-    useMutation<AnswerData>(`/api/posts/${router.query.id}/answers`);
+    useMutation<AnswerForm, AnswerResponse>(
+      `/api/posts/${router.query.id}/answers`
+    );
 
   const {
     register,
@@ -101,11 +108,10 @@ const CommunityPostDetail: NextPage = () => {
     if (answerLoading) return;
 
     // 'ok'를 추가하여 'AnswerData' 타입으로 변환
-    const answerData: AnswerData = { ...form, ok: true };
+    // const answerData: AnswerData = { ...form, ok: true }; => useMutation 훅 수정으로 코드 원복시켜서 주석처리
 
     //로딩중이 아니라면, form을 담아서 sendAnswer함수 실행
-    //sendAnswer(form);
-    sendAnswer(answerData);
+    sendAnswer(form);
   };
 
   // answerData가 존재하고 동시에 answerData.ok응답을 받았으면 form을 비울거임
