@@ -7,6 +7,7 @@ import { Stream } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import useMutation from "../../src/libs/client/useMutation";
 import useUser from "../../src/libs/client/useUser";
+import Head from "next/head";
 
 interface StreamMessage {
   message: string;
@@ -160,6 +161,9 @@ const StreamDetail: NextPage = () => {
 
   return (
     <Layout canGoStreams>
+      <Head>
+        <title>라이브</title>
+      </Head>
       <div className="py-10 px-4  space-y-4">
         <div className="w-full rounded-md shadow-sm bg-slate-300 aspect-video" />
         <div className="mt-5">

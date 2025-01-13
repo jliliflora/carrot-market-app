@@ -8,6 +8,7 @@ import useCoords from "../../src/libs/client/useCoords";
 import { useEffect, useState } from "react";
 import Pagination from "../components/pagination";
 import useUser from "../../src/libs/client/useUser";
+import Head from "next/head";
 
 interface PostWithUser extends Post {
   user: User;
@@ -54,6 +55,9 @@ const Community: NextPage = () => {
 
   return (
     <Layout hasTabBar title="동네생활">
+      <Head>
+        <title>동네생활</title>
+      </Head>
       {Loading ? (
         <div className="pt-6 text-center">Loading...</div>
       ) : !limitData?.posts?.length ? (

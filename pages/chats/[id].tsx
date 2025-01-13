@@ -3,6 +3,7 @@ import Layout from "../components/layout";
 import Message from "../components/message";
 import useUser from "../../src/libs/client/useUser";
 import DemoAlert from "../components/demoalert";
+import Head from "next/head";
 
 const ChatDetail: NextPage = () => {
   //로그인이 안됐을때 enter로 redirect
@@ -11,6 +12,9 @@ const ChatDetail: NextPage = () => {
 
   return (
     <Layout canGoChats title="Steve">
+      <Head>
+        <title>채팅</title>
+      </Head>
       <div className="py-10 pb-16 px-4 space-y-4">
         <Message message="Hi how much are you selling them for?" />
         <Message message="I want ￦20,000" reversed />

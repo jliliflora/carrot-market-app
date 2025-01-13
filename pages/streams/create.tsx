@@ -9,6 +9,7 @@ import useMutation from "../../src/libs/client/useMutation";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import useUser from "../../src/libs/client/useUser";
+import Head from "next/head";
 
 interface CreateForm {
   name: string;
@@ -46,6 +47,9 @@ const Create: NextPage = () => {
 
   return (
     <Layout canGoBack title="Go Live">
+      <Head>
+        <title>라이브</title>
+      </Head>
       <form onSubmit={handleSubmit(onValid)} className=" space-y-4 py-10 px-4">
         <Input
           register={register("name", { required: true })}

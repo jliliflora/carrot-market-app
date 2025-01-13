@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import useMutation from "../../src/libs/client/useMutation";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import Head from "next/head";
 
 interface EditProfileForm {
   email?: string;
@@ -104,6 +105,9 @@ const EditProfile: NextPage = () => {
 
   return (
     <Layout canGoBack title="Edit Profile">
+      <Head>
+        <title>프로필 편집</title>
+      </Head>
       <form onSubmit={handleSubmit(onValid)} className="py-10 px-4 space-y-4">
         <div className="flex items-center space-x-3">
           {avatarPreview ? (

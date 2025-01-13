@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import Layout from "../components/layout";
 import ProductList from "../components/product-list";
 import useUser from "../../src/libs/client/useUser";
+import Head from "next/head";
 
 const Sold: NextPage = () => {
   //로그인이 안됐을때 enter로 redirect
@@ -10,6 +11,9 @@ const Sold: NextPage = () => {
 
   return (
     <Layout title="판매내역" canGoBack>
+      <Head>
+        <title>판매내역</title>
+      </Head>
       <div className="flex flex-col space-y-5 pt-5">
         <ProductList kind="sales" />
         {/* {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (

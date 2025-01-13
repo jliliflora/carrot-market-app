@@ -9,6 +9,7 @@ import useMutation from "../../src/libs/client/useMutation";
 import { cls } from "../../src/libs/client/utils";
 import useUser from "../../src/libs/client/useUser";
 import Image from "next/image";
+import Head from "next/head";
 
 interface ProductWithUser extends Product {
   user: User;
@@ -55,6 +56,9 @@ const ItemDetail: NextPage = () => {
 
   return (
     <Layout {...layoutProps}>
+      <Head>
+        <title>Home</title>
+      </Head>
       <div className="px-4 py-4">
         <div className="mb-8">
           {imageUrl ? (

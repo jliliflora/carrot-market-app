@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import Pagination from "../components/pagination";
 import useUser from "../../src/libs/client/useUser";
 import DemoAlert from "../components/demoalert";
+import Head from "next/head";
 
 interface StreamsResponse {
   ok: boolean;
@@ -33,6 +34,9 @@ const Streams: NextPage = () => {
 
   return (
     <Layout hasTabBar title="라이브">
+      <Head>
+        <title>라이브</title>
+      </Head>
       <div className="mb-5 divide-y-[1px] space-y-4">
         {limitData?.streams?.map((stream) => (
           <Link

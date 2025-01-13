@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import useCoords from "../../src/libs/client/useCoords";
 import useUser from "../../src/libs/client/useUser";
+import Head from "next/head";
 
 interface WriteForm {
   question: string;
@@ -69,6 +70,9 @@ const Write: NextPage = () => {
 
   return (
     <Layout canGoBack title="Write Post">
+      <Head>
+        <title>동네생활</title>
+      </Head>
       <form onSubmit={handleSubmit(onValid)} className="p-4 space-y-4">
         <TextArea
           register={register("question", { required: true, minLength: 5 })}

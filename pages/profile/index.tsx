@@ -8,6 +8,7 @@ import { cls } from "../../src/libs/client/utils";
 import useMutation from "../../src/libs/client/useMutation";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import Head from "next/head";
 
 interface ReviewWithUser extends Review {
   createdBy: User;
@@ -47,6 +48,9 @@ const Profile: NextPage = () => {
 
   return (
     <Layout hasTabBar title="나의 캐럿">
+      <Head>
+        <title>나의 캐럿</title>
+      </Head>
       <div className="px-4">
         <div className="relative flex items-center mt-4 space-x-3">
           <div className="w-16 h-16 bg-slate-500 rounded-full" />

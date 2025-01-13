@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { format } from "date-fns";
 import useUser from "../../src/libs/client/useUser";
+import Head from "next/head";
 
 interface AnswerWithUser extends Answer {
   user: User;
@@ -134,6 +135,9 @@ const CommunityPostDetail: NextPage = () => {
 
   return (
     <Layout canGoPosts>
+      <Head>
+        <title>동네생활</title>
+      </Head>
       <div>
         <span className="inline-flex my-3 ml-4 items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
           동네질문

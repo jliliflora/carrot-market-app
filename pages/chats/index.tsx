@@ -3,6 +3,7 @@ import Layout from "../components/layout";
 import Link from "next/link";
 import useUser from "../../src/libs/client/useUser";
 import DemoAlert from "../components/demoalert";
+import Head from "next/head";
 
 const Chats: NextPage = () => {
   //로그인이 안됐을때 enter로 redirect
@@ -11,6 +12,9 @@ const Chats: NextPage = () => {
 
   return (
     <Layout hasTabBar title="채팅">
+      <Head>
+        <title>채팅</title>
+      </Head>
       <div className=" divide-y-[1px] relative">
         {[1, 1, 1, 1, 1, 1, 1].map((_, i) => (
           <Link
