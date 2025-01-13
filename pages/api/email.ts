@@ -16,7 +16,7 @@ const auth =
 if (!auth) {
   throw new Error("MAIL_ID and MAIL_PASSWORD are required to send emails.");
 }
-
+/*
 const smtpTransport = nodemailer.createTransport({
   service: "Naver",
   host: "smtp.naver.com",
@@ -32,8 +32,35 @@ const smtpTransport = nodemailer.createTransport({
     rejectUnauthorized: false,
   },
 });
+*/
 
-console.log("MAIL_ID 22:", process.env.MAIL_ID);
-console.log("MAIL_PASSWORD 22:", process.env.MAIL_PASSWORD);
+const smtpTransport = nodemailer.createTransport({
+  service: "Naver",
+  host: "smtp.naver.com",
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.MAIL_ID,
+    pass: process.env.MAIL_PASSWORD,
+  },
+  tls: {
+    rejectUnauthorized: false,
+  },
+  connectionTimeout: 10000, // 연결 타임아웃 (10초)
+  greetingTimeout: 5000, // 서버 응답 타임아웃 (5초)
+  socketTimeout: 10000, // 전체 타임아웃 (10초)
+});
+
+// SMTP 서버 연결 확인
+smtpTransport.verify((error, success) => {
+  if (error) {
+    console.log("SMTP Connection Error:", error);
+  } else {
+    console.log("SMTP Connection Successful:", success);
+  }
+});
+
+// console.log("MAIL_ID 22:", process.env.MAIL_ID);
+// console.log("MAIL_PASSWORD 22:", process.env.MAIL_PASSWORD);
 
 export default smtpTransport;

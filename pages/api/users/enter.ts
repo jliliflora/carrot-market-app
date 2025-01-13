@@ -123,6 +123,7 @@ async function handler(
   }
 
   /*이메일 인증 보내기 성공~! */
+  /*
   if (email) {
     const mailOptions = {
       from: process.env.MAIL_ID,
@@ -145,6 +146,30 @@ async function handler(
 
     smtpTransport.close();
     console.log(result);
+  }*/
+  if (email) {
+    // SMTP 서버 연결 확인
+    try {
+      await smtpTransport.verify();
+      console.log("SMTP Server is ready to send emails");
+
+      // 이메일 발송
+      const mailOptions = {
+        from: process.env.MAIL_ID,
+        to: email,
+        subject: "Nomad Carrot Authentication Email",
+        text: `Authentication Code: ${payload}`,
+      };
+
+      const sendResult = await smtpTransport.sendMail(mailOptions);
+      console.log("Email sent:", sendResult);
+
+      // 연결 닫기
+      smtpTransport.close();
+    } catch (error) {
+      console.error("Error sending email:", error);
+      return res.status(500).json({ ok: false, error: "Failed to send email" });
+    }
   }
 
   return res.json({
