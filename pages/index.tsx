@@ -11,10 +11,11 @@ import { GetServerSideProps } from "next";
 import Link from "next/link";
 import Loader from "./components/loadingspin";
 
-interface HomePageProps {
-  mailId: string;
-  mailPassword: string;
-}
+// 사용안해서 주석처리
+// interface HomePageProps {
+//   mailId: string;
+//   mailPassword: string;
+// }
 
 export const getServerSideProps: GetServerSideProps = async () => {
   // 환경 변수 가져오기
@@ -59,7 +60,7 @@ interface ProductsResponse {
   products: ProductWithCount[];
 }
 
-export default function Home({ mailId, mailPassword }: HomePageProps) {
+export default function Home() {
   // 페이지에서 받은 props 사용
   // console.log("Mail ID:", mailId);
   // console.log("Mail Password:", mailPassword);
