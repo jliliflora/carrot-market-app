@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import useMutation from "../src/libs/client/useMutation";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import Loader from "./components/loadingspin";
 
 interface EnterForm {
   email?: string;
@@ -97,6 +98,11 @@ const Enter: NextPage = () => {
       <Head>
         <title>Login</title>
       </Head>
+      {(loading || tokenLoading) && (
+        <div className="fixed inset-0 flex items-center justify-center bg-white/50 backdrop-blur-sm z-50">
+          <Loader />
+        </div>
+      )}
       <h3 className="text-3xl font-bold text-center">Enter to Carrot</h3>
       <div className="mt-11">
         {data?.ok ? (
@@ -173,7 +179,7 @@ const Enter: NextPage = () => {
                   required
                 />
               ) : null}
-              {method === "phone" ? (
+              {/* {method === "phone" ? (
                 <Input
                   register={register("phone")}
                   name="phone"
@@ -182,13 +188,13 @@ const Enter: NextPage = () => {
                   kind="phone"
                   required
                 />
-              ) : null}
+              ) : null} */}
               {method === "email" ? (
                 <Button text={loading ? "Loading" : "Get login link"} />
               ) : null}
-              {method === "phone" ? (
+              {/* {method === "phone" ? (
                 <Button text={loading ? "Loading" : "Get one-time password"} />
-              ) : null}
+              ) : null} */}
             </form>
           </>
         )}

@@ -150,7 +150,10 @@ const Profile: NextPage = () => {
               </div>
             ) : data && data.reviews && data.reviews.length > 0 ? (
               data?.reviews.map((review) => (
-                <div key={review.id} className="mt-12 border-t border-gray-300">
+                <div
+                  key={review.id}
+                  className="mt-12 border-t border-gray-300 pt-5 px-2"
+                >
                   <div className="flex space-x-4 items-center">
                     <div className="w-12 h-12 rounded-full bg-slate-500" />
                     <div>
