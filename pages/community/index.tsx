@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import Pagination from "../components/pagination";
 import useUser from "../../src/libs/client/useUser";
 import Head from "next/head";
+import Loader from "../components/loadingspin";
 
 interface PostWithUser extends Post {
   user: User;
@@ -59,7 +60,9 @@ const Community: NextPage = () => {
         <title>동네생활</title>
       </Head>
       {Loading ? (
-        <div className="pt-6 text-center">Loading...</div>
+        <div className="flex flex-col items-center justify-center h-screen -translate-y-12">
+          <Loader />
+        </div>
       ) : !limitData?.posts?.length ? (
         <div className="pt-12 text-center">
           아직 아무도 소식을 남기지 않았어요. <br /> 첫 번째 소식을 들려주시면

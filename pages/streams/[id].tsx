@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import useMutation from "../../src/libs/client/useMutation";
 import useUser from "../../src/libs/client/useUser";
 import Head from "next/head";
+import Loader from "../components/loadingspin";
 
 interface StreamMessage {
   message: string;
@@ -82,7 +83,7 @@ const StreamDetail: NextPage = () => {
   const { user } = useUser();
   // get
   const router = useRouter();
-  const { data, mutate } = useSWR<StreamResponse>(
+  const { data, mutate, isLoading } = useSWR<StreamResponse>(
     router.query.id ? `/api/streams/${router.query.id}` : null,
     {
       refreshInterval: 1000, //실시간기능을 제공 할 순 없지만, 새 메세지를 1초마다 확인하게끔 하는 코드
@@ -164,52 +165,59 @@ const StreamDetail: NextPage = () => {
       <Head>
         <title>라이브</title>
       </Head>
-      <div className="py-10 px-4  space-y-4">
-        <div className="w-full rounded-md shadow-sm bg-slate-300 aspect-video" />
-        <div className="mt-5">
-          <h1 className="text-3xl font-bold text-gray-900">
-            {data?.stream?.name}
-          </h1>
-          <span className="text-2xl block mt-3 text-gray-900">
-            ${data?.stream?.price}
-          </span>
-          <p className=" my-6 text-gray-700">{data?.stream?.description}</p>
-        </div>
-        <div className="relative">
-          <p className="absolute top-[-1.3rem] right-[0rem] bg-orange-200 bg-opacity-60 border border-orange-300 rounded-xl px-[0.4rem] py-[0.35rem] w-[310px] text-center text-orange-500 text-[0.8rem]">
-            채팅 기능이 활성화되었습니다!
-            <br /> 실시간은 아니지만, 흥미로운 반응을 기다리고있어요 😆
-          </p>
 
-          <h2 className="text-2xl font-bold text-gray-900">Live Chat</h2>
-          <div className="py-10 pb-16 h-[50vh] overflow-y-scroll  px-4 space-y-4">
-            {data?.stream.messages.map((message) => (
-              <Message
-                key={message.id}
-                message={message.message}
-                reversed={message.user.id === user?.id}
-              />
-            ))}
+      {isLoading ? (
+        <div className="flex flex-col items-center justify-center h-screen -translate-y-12">
+          <Loader />
+        </div>
+      ) : (
+        <div className="py-10 px-4  space-y-4">
+          <div className="w-full rounded-md shadow-sm bg-slate-300 aspect-video" />
+          <div className="mt-5">
+            <h1 className="text-3xl font-bold text-gray-900">
+              {data?.stream?.name}
+            </h1>
+            <span className="text-2xl block mt-3 text-gray-900">
+              ${data?.stream?.price}
+            </span>
+            <p className=" my-6 text-gray-700">{data?.stream?.description}</p>
           </div>
-          <div className="fixed py-2 bg-white  bottom-0 inset-x-0">
-            <form
-              onSubmit={handleSubmit(onValid)}
-              className="flex relative max-w-md items-center  w-full mx-auto"
-            >
-              <input
-                type="text"
-                {...register("message", { required: true })}
-                className="shadow-sm rounded-full w-full border-gray-300 focus:ring-orange-500 focus:outline-none pr-12 focus:border-orange-500"
-              />
-              <div className="absolute inset-y-0 flex py-1.5 pr-1.5 right-0">
-                <button className="flex focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 items-center bg-orange-500 rounded-full px-3 hover:bg-orange-600 text-sm text-white">
-                  &rarr;
-                </button>
-              </div>
-            </form>
+          <div className="relative">
+            <p className="absolute top-[-1.3rem] right-[0rem] bg-orange-200 bg-opacity-60 border border-orange-300 rounded-xl px-[0.4rem] py-[0.35rem] w-[250px] text-center text-orange-500 text-[0.8rem]">
+              채팅 기능이 활성화되었습니다!
+              <br /> 흥미로운 반응을 기다리고있어요 🎵
+            </p>
+
+            <h2 className="text-2xl font-bold text-gray-900">Live Chat</h2>
+            <div className="py-10 pb-16 h-[50vh] overflow-y-scroll  px-4 space-y-4">
+              {data?.stream.messages.map((message) => (
+                <Message
+                  key={message.id}
+                  message={message.message}
+                  reversed={message.user.id === user?.id}
+                />
+              ))}
+            </div>
+            <div className="fixed py-2 bg-white  bottom-0 inset-x-0">
+              <form
+                onSubmit={handleSubmit(onValid)}
+                className="flex relative max-w-md items-center  w-full mx-auto"
+              >
+                <input
+                  type="text"
+                  {...register("message", { required: true })}
+                  className="shadow-sm rounded-full w-full border-gray-300 focus:ring-orange-500 focus:outline-none pr-12 focus:border-orange-500"
+                />
+                <div className="absolute inset-y-0 flex py-1.5 pr-1.5 right-0">
+                  <button className="flex focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 items-center bg-orange-500 rounded-full px-3 hover:bg-orange-600 text-sm text-white">
+                    &rarr;
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </Layout>
   );
 };

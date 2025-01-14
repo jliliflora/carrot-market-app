@@ -2,6 +2,7 @@
 import useSWR from "swr";
 import { ProductWithCount } from "../index";
 import Item from "./item";
+import Loader from "./loadingspin";
 
 interface ProductListProps {
   kind: "favs" | "sales" | "purchases";
@@ -22,7 +23,11 @@ export default function ProductList({ kind }: ProductListProps) {
   // console.log(data);
 
   if (isLoading) {
-    return <div className="pt-10 px-2 text-center">Loading...</div>;
+    return (
+      <div className="flex flex-col items-center justify-center h-screen -translate-y-12">
+        <Loader />
+      </div>
+    );
   }
   if (error) {
     return <div>에러가 발생했습니다!</div>;

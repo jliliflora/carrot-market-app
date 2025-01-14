@@ -8,6 +8,7 @@ import Pagination from "../components/pagination";
 import useUser from "../../src/libs/client/useUser";
 import DemoAlert from "../components/demoalert";
 import Head from "next/head";
+import Loader from "../components/loadingspin";
 
 interface StreamsResponse {
   ok: boolean;
@@ -23,7 +24,7 @@ const Streams: NextPage = () => {
   const [totalCount, setTotalCount] = useState<number>();
 
   const { data } = useSWR<StreamsResponse>(`/api/streams`);
-  const { data: limitData } = useSWR<StreamsResponse>(
+  const { data: limitData, isLoading: limitLoading } = useSWR<StreamsResponse>(
     `/api/streams?page=${currentPage}`
   );
 
@@ -37,23 +38,29 @@ const Streams: NextPage = () => {
       <Head>
         <title>라이브</title>
       </Head>
-      <div className="mb-5 divide-y-[1px] space-y-4">
-        {limitData?.streams?.map((stream) => (
-          <Link
-            key={stream.id}
-            href={`/streams/${stream.id}`}
-            className="pt-4 block  px-4"
-          >
-            <div className="w-full rounded-md shadow-sm bg-slate-300 aspect-video" />
-            {/* <h3 className="mt-2 text-lg  text-gray-700">{stream.id}</h3> */}
-            <h1 className="text-2xl mt-2 font-bold text-gray-900">
-              {stream.name}
-            </h1>
-          </Link>
-        ))}
-        <DemoAlert />
 
-        {/* {[1, 1, 1, 1, 1, 1, 1].map((_, i) => (
+      {limitLoading ? (
+        <div className="flex flex-col items-center justify-center h-screen -translate-y-12">
+          <Loader />
+        </div>
+      ) : (
+        <div className="mb-5 divide-y-[1px] space-y-4">
+          {limitData?.streams?.map((stream) => (
+            <Link
+              key={stream.id}
+              href={`/streams/${stream.id}`}
+              className="pt-4 block  px-4"
+            >
+              <div className="w-full rounded-md shadow-sm bg-slate-300 aspect-video" />
+              {/* <h3 className="mt-2 text-lg  text-gray-700">{stream.id}</h3> */}
+              <h1 className="text-2xl mt-2 font-bold text-gray-900">
+                {stream.name}
+              </h1>
+            </Link>
+          ))}
+          <DemoAlert />
+
+          {/* {[1, 1, 1, 1, 1, 1, 1].map((_, i) => (
           <div className="pt-4  px-4" key={i}>
             <div className="w-full rounded-md shadow-sm bg-slate-300 aspect-video" />
             <h1 className="text-2xl mt-2 font-bold text-gray-900">
@@ -61,30 +68,31 @@ const Streams: NextPage = () => {
             </h1>
           </div>
         ))} */}
-        <Pagination
-          totalCount={Number(totalCount)}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-        <div className="fixed hover:bg-orange-500 border-0 aspect-square border-transparent transition-colors cursor-pointer  bottom-24 right-5 shadow-xl bg-orange-400 rounded-full w-14 flex items-center justify-center text-white">
-          <Link href="/streams/create">
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
-              ></path>
-            </svg>
-          </Link>
+          <Pagination
+            totalCount={Number(totalCount)}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+          <div className="fixed hover:bg-orange-500 border-0 aspect-square border-transparent transition-colors cursor-pointer  bottom-24 right-5 shadow-xl bg-orange-400 rounded-full w-14 flex items-center justify-center text-white">
+            <Link href="/streams/create">
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+                ></path>
+              </svg>
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
     </Layout>
   );
 };

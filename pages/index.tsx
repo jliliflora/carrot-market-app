@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import Pagination from "./components/pagination";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
+import Loader from "./components/loadingspin";
 
 interface HomePageProps {
   mailId: string;
@@ -60,13 +61,13 @@ interface ProductsResponse {
 
 export default function Home({ mailId, mailPassword }: HomePageProps) {
   // 페이지에서 받은 props 사용
-  console.log("Mail ID:", mailId);
-  console.log("Mail Password:", mailPassword);
+  // console.log("Mail ID:", mailId);
+  // console.log("Mail Password:", mailPassword);
 
   const {} = useUser(); //페이지에 데이터를 전달해주는 훅
   // console.log(user, isLoading);
 
-  const { data } = useSWR<ProductsResponse>("api/products");
+  const { data, isLoading } = useSWR<ProductsResponse>("api/products");
   // console.log(data);
 
   //pagination
@@ -104,25 +105,30 @@ export default function Home({ mailId, mailPassword }: HomePageProps) {
       <Head>
         <title>Home</title>
       </Head>
-      <div className="flex flex-col space-y-5 pt-5">
-        {limitData?.products?.map((product) => {
-          const imageUrl =
-            imageUrls.find((image) => image.id === product.id)?.url ||
-            "/images/default.jpg";
+      {isLoading ? (
+        <div className="flex flex-col items-center justify-center h-screen -translate-y-12">
+          <Loader />
+        </div>
+      ) : (
+        <div className="flex flex-col space-y-5 pt-5">
+          {limitData?.products?.map((product) => {
+            const imageUrl =
+              imageUrls.find((image) => image.id === product.id)?.url ||
+              "/images/default.jpg";
 
-          return (
-            <Item
-              id={product.id}
-              key={product.id}
-              title={product.name}
-              price={product.price}
-              hearts={product._count.favs}
-              imageUrl={imageUrl}
-            ></Item>
-          );
-        })}
+            return (
+              <Item
+                id={product.id}
+                key={product.id}
+                title={product.name}
+                price={product.price}
+                hearts={product._count.favs}
+                imageUrl={imageUrl}
+              ></Item>
+            );
+          })}
 
-        {/* {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
+          {/* {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
           <div
             key={i}
             className="flex px-4 border-b pb-5 cursor-pointer justify-between"
@@ -177,32 +183,33 @@ export default function Home({ mailId, mailPassword }: HomePageProps) {
           </div>
         ))} */}
 
-        {/* <button className="fixed hover:bg-orange-500 transition-colors cursor-pointer  bottom-24 right-5 shadow-xl bg-orange-400 rounded-full p-4 text-white"> */}
-        <Pagination
-          totalCount={Number(totalCount)}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-        <div className="fixed hover:bg-orange-500 border-0 aspect-square border-transparent transition-colors cursor-pointer  bottom-24 right-5 shadow-xl bg-orange-400 rounded-full w-14 flex items-center justify-center text-white">
-          <Link href="/products/upload">
-            <svg
-              className="h-6 w-6"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-              />
-            </svg>
-          </Link>
+          {/* <button className="fixed hover:bg-orange-500 transition-colors cursor-pointer  bottom-24 right-5 shadow-xl bg-orange-400 rounded-full p-4 text-white"> */}
+          <Pagination
+            totalCount={Number(totalCount)}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+          <div className="fixed hover:bg-orange-500 border-0 aspect-square border-transparent transition-colors cursor-pointer  bottom-24 right-5 shadow-xl bg-orange-400 rounded-full w-14 flex items-center justify-center text-white">
+            <Link href="/products/upload">
+              <svg
+                className="h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                />
+              </svg>
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
     </Layout>
   );
 }
